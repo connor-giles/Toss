@@ -1,6 +1,6 @@
 export default {
     db: {
       uri:
-        "mongodb+srv://ashishgoolla:Ramukhsihsa123!@tosscluster.oq6ub.mongodb.net/<dbname>?retryWrites=true&w=majority", //place the URI of your mongo database here.
+        "mongodb+srv://tossDev:tossDev123@tosscluster.oq6ub.mongodb.net/test", //place the URI of your mongo database here.
     },
   };
