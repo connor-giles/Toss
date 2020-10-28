@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Nav from './components/Nav.js';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 // test
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to the future home of TOSS...
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+          <Nav/>
+          <Switch>
+          <Route path="/" exact component={Home} />
+            <Route path="/profile" component={Profile} />
+          </Switch>
+      </div>
+    </Router>
   );
 }
 
