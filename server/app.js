@@ -13,7 +13,6 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './config/config.js'
 import testRouter from './routes/testRouter.js'
-import indexRouter from './routes/indexRouter.js'
 
 //connect to database
 const db = connectToTossDatabase().on(
@@ -27,17 +26,17 @@ db.once("open", () => {
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// // view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(logger('dev'));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/test', testRouter);
+app.use('/test/', testRouter);
 
 
 // // catch 404 and forward to error handler

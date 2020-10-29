@@ -6,7 +6,6 @@ const testSchema = new mongoose.Schema({
 });
 
 
-
 /* Use your schema to instantiate a Mongoose model
 Export the model to make it available to other parts of your Node application */
 //Check out - https://mongoosejs.com/docs/guide.html#models
