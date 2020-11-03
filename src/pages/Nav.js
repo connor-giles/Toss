@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Nav() {
+
+
     return (
         <nav>
             <u1 className= "nav-tabs">
@@ -11,6 +13,12 @@ function Nav() {
                 <li>ABOUT </li>
                 <Link to ='/profile' className="nav-links">
                     <li>PROFILE</li>
+                </Link>
+
+                <li> | </li>
+
+                <Link to ='/signin' className="nav-links">
+                    <li>SIGN IN</li>
                 </Link>
             </u1>
         </nav>
