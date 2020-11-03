@@ -77,7 +77,7 @@ const main = async () => {
         await saveDataInDB(info)
           .then(async (data) => {
             //check if the info data has been saved successfully
-            await report(null, "All %d documents have been added.");
+            await report(null, "There are now %d documents after adding.");
             mongoose.disconnect() 
           })
           .catch((err) => {

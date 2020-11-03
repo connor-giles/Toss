@@ -55,7 +55,7 @@ exports.create = async (req, res) => {
   };
 
 
-/* Delete a FootballClub */
+/* Delete an entry */
 exports.remove = async (req, res) => {
     let id = req.params.testId;
   
