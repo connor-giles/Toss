@@ -1,3 +1,4 @@
+const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
 const testModel = require('../models/testModel.js')
@@ -51,4 +52,21 @@ exports.create = async (req, res) => {
       .catch((err) => {
         res.status(200).send(err);
       });
+  };
+
+
+/* Delete a FootballClub */
+exports.remove = async (req, res) => {
+    let id = req.params.testId;
+  
+    await testModel.deleteOne({ _id: id }, (err) => {
+      if (err) {
+        return res.status(200).send({
+          error: err.message || "An unknown error occurred",
+        });
+      }
+      res.send({
+        error: id + " has been deleted successfully",
+      });
+    });
   };
