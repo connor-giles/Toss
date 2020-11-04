@@ -1,15 +1,11 @@
 const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
-const testModel = require('../models/testModel.js');
-
-exports.hello = function (req, res) {
-  res.send('Hello, World!');
-};
+const Response = require('../models/responseModel');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
-  await testModel.find({}, (err, data) => {
+  await Response.find({}, (err, data) => {
     if (err)
       return res.status(200).send({
         message: err.message || 'An unknown error occurred',
@@ -21,8 +17,7 @@ exports.listAll = async (req, res) => {
 /* Show the current FootballClub */
 exports.read = async (req, res) => {
   let id = req.params.testId;
-  await testModel
-    .findById(id)
+  await Response.findById(id)
     .then((info) => {
       if (!info) {
         return res.status(200).send({
@@ -40,19 +35,24 @@ exports.read = async (req, res) => {
 
 /* Create a entry in db */
 exports.create = async (req, res) => {
+  //
   const info = req.body;
+  //
   if (!info) {
     return res.status(200).send({
-      error: 'info not found',
+      error: 'info not found in request',
     });
   }
-  await new testModel(info)
+  await new Response(info)
     .save()
     .then((data) => {
       res.json(data);
     })
     .catch((err) => {
-      res.status(200).send(err);
+      res.status(400).json({
+        status: 'fail',
+        message: err,
+      });
     });
 };
 
@@ -60,7 +60,7 @@ exports.create = async (req, res) => {
 exports.remove = async (req, res) => {
   let id = req.params.testId;
 
-  await testModel.deleteOne({ _id: id }, (err) => {
+  await Response.deleteOne({ _id: id }, (err) => {
     if (err) {
       return res.status(200).send({
         error: err.message || 'An unknown error occurred',
