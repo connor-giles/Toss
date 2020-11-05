@@ -7,10 +7,9 @@ const path = require('path'),
   responseRouter = require('./routes/responseRouter');
 
 module.exports.init = () => {
-  /* 
-        connect to database
+  /* connect to database
         - reference README for db uri
-  
+  */
   mongoose.connect(
     process.env.DB_URI || require('./config/config').db.uri_TossData,
     {
@@ -20,7 +19,6 @@ module.exports.init = () => {
   );
   mongoose.set('useCreateIndex', true);
   mongoose.set('useFindAndModify', false);
-  */
 
   // initialize app
   const app = express();
@@ -33,7 +31,7 @@ module.exports.init = () => {
 
   // add a router
   app.use('/api/test', testRouter);
-  app.use('/Response', responseRouter);
+  app.use('/', responseRouter);
 
   if (process.env.NODE_ENV === 'production') {
     // Serve any static files

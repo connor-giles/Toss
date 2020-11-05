@@ -7,7 +7,7 @@ const Response = require('./models/responseModel.js');
 dotenv.config({ path: './config/config.env' });
 
 const DB_TD = process.env.DATABASE_URI;
-
+/*
 mongoose
   .connect(DB_TD, {
     useNewUrlParser: true,
@@ -18,6 +18,7 @@ mongoose
     console.log(con.connections);
     console.log('DB connection successful');
   });
+*/
 
 const port = process.env.PORT || 3000;
 

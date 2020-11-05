@@ -4,9 +4,9 @@ const responseController = require('../controllers/responseController');
 const router = express.Router();
 
 router
-  .route('/Response')
-  .post(responseController.create)
-  .get(responseController.listAll);
+  .route('/')
+  .get(responseController.listAll)
+  .post(responseController.create);
 
 router
   .route('/:testId')
