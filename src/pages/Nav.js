@@ -6,7 +6,7 @@ function Nav() {
 
     return (
         <nav>
-            <u1 className= "nav-tabs">
+            <div className= "nav-tabs">
                 <Link to ='/' className="nav-links">
                     <li>HOME</li>
                 </Link>
@@ -20,7 +20,7 @@ function Nav() {
                 <Link to ='/signin' className="nav-links">
                     <li>SIGN IN</li>
                 </Link>
-            </u1>
+            </div>
         </nav>
     )
 }
