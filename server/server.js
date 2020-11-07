@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const express = require('./express.js');
-const TossModel = require('./models/tossModel.js');
-const Response = require('./models/responseModel.js');
- 
+
 dotenv.config({ path: './config/config.env' });
 
 /*

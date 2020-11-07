@@ -6,7 +6,7 @@ mongoose = require('mongoose');
 
 /* Connect to your database using mongoose */
 const connectToDatabase = () => {
-  const link = config.db.uri_TD;
+  const link = config.db.uri_TossData;
   mongoose
     .connect(link, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch((error) => console.error(error));
