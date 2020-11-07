@@ -65,28 +65,28 @@ const main = async () => {
 
     Remember that we needed to read in a file like we did in Bootcamp Assignment #1.
    */
-  //delete the existing entries to start fresh
-  //await deleteDataInDB();
-  //checking if the documents have been deleted successfully
-  //await report(null, "Documents deleted, there are now %d documents.");
-  var path = './server/test';
-  //read file and return the data
-  await readJsonFile(path)
-    .then(async (info) => {
-      //save the data into the database
-      await saveDataInDB(info)
-        .then(async (data) => {
-          //check if the info data has been saved successfully
-          await report(null, 'All %d documents have been added.');
-          mongoose.disconnect();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    //delete the existing entries to start fresh
+    //await deleteDataInDB();
+    //checking if the documents have been deleted successfully
+    //await report(null, "Documents deleted, there are now %d documents.");
+    var path = "./server/test"
+    //read file and return the data
+    await readJsonFile(path)
+      .then(async (info) => {
+        //save the data into the database
+        await saveDataInDB(info)
+          .then(async (data) => {
+            //check if the info data has been saved successfully
+            await report(null, "There are now %d documents after adding.");
+            mongoose.disconnect() 
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 };
 
 main();
