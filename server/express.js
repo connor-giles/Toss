@@ -5,6 +5,7 @@ const path = require('path'),
   bodyParser = require('body-parser'),
   testRouter = require('./routes/testRouter'),
   responseRouter = require('./routes/responseRouter');
+tossRouter = require('./routes/tossRouter');
 
 module.exports.init = () => {
   /* connect to database
@@ -31,7 +32,8 @@ module.exports.init = () => {
 
   // add a router
   app.use('/api/test', testRouter);
-  app.use('/', responseRouter);
+  app.use('/response', responseRouter);
+  app.use('/toss', tossRouter);
 
   if (process.env.NODE_ENV === 'production') {
     // Serve any static files

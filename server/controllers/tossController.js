@@ -1,11 +1,11 @@
 const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
-const Response = require('../models/responseModel');
+const Toss = require('../models/tossModel');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
-  await Response.find({}, (err, data) => {
+  await Toss.find({}, (err, data) => {
     if (err)
       return res.status(400).send({
         message: err.message || 'An unknown error occurred',
@@ -15,9 +15,9 @@ exports.listAll = async (req, res) => {
 };
 
 /* Show the current FootballClub */
-exports.getResponse = async (req, res) => {
+exports.getToss = async (req, res) => {
   let id = req.params.id;
-  await Response.findById(id)
+  await Toss.findById(id)
     .then((info) => {
       if (!info) {
         return res.status(200).send({
@@ -33,10 +33,10 @@ exports.getResponse = async (req, res) => {
     });
 };
 
-exports.updateResponse = async (req, res) => {
+exports.updateToss = async (req, res) => {
   let id = req.params.id;
   try {
-    const response = await Response.findByIdAndUpdate(id, req.body, {
+    const Toss = await Toss.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -44,7 +44,7 @@ exports.updateResponse = async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        response,
+        Toss,
       },
     });
   } catch (err) {
@@ -65,7 +65,7 @@ exports.create = async (req, res) => {
       error: 'info not found in request',
     });
   }
-  await new Response(info)
+  await new Toss(info)
     .save()
     .then((data) => {
       res.json(data);
@@ -78,11 +78,11 @@ exports.create = async (req, res) => {
     });
 };
 
-/* Delete a FootballClub */
-exports.remove = async (req, res) => {
+/* Delete a Toss */
+exports.removeToss = async (req, res) => {
   let id = req.params.testId;
 
-  await Response.deleteOne({ _id: id }, (err) => {
+  await Toss.deleteOne({ _id: id }, (err) => {
     if (err) {
       return res.status(200).send({
         error: err.message || 'An unknown error occurred',

@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const responseController = require('../controllers/responseController');
 
@@ -9,8 +10,9 @@ router
   .post(responseController.create);
 
 router
-  .route('/:testId')
-  .get(responseController.read)
+  .route('/:id')
+  .get(responseController.getResponse)
+  .patch(responseController.updateResponse)
   .delete(responseController.remove);
 
 module.exports = router;

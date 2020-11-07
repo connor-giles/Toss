@@ -32,6 +32,7 @@ const model = {
 
 const tossSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
+  currentPhase: Number,
   prompt: String,
   userResponses: [mongoose.Schema.Types.ObjectId],
 });
