@@ -55,6 +55,7 @@ const saveDataInDB = async (info) => {
 //     if (err) throw err;
 //   });
 // };
+//
 
 const main = async () => {
   connectToDB();
