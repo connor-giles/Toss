@@ -31,10 +31,40 @@ const model = {
 */
 
 const tossSchema = new mongoose.Schema({
-  date: { type: Date, default: Date.now },
-  currentPhase: Number,
-  prompt: String,
-  userResponses: [mongoose.Schema.Types.ObjectId],
+  // Date that Phase 1 of this Toss was started
+  dateStarted: {
+    type: Date,
+    default: Date.now,
+  },
+
+  // One of four categories: Politics, Social, Environment, Science and Technology
+  category: {
+    type: String,
+    required: [true, 'A toss must have a phase'],
+  },
+
+  // Phase 0 = hasn't started
+  // Phase 1-4 =  active
+  // Phase 5 = completed (i.e. past/archived Toss)
+  currentPhase: {
+    type: Number,
+    default: 0,
+    max: [5, 'Exceeded max possible phase of 5'],
+  },
+
+  prompt: {
+    type: String,
+    required: [true, 'A toss must have a phase'],
+  },
+
+  // Array of references to Response Documents in the Response Collection
+  // Stored by objectIDs (var: _id)
+  userResponses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Response',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Toss', tossSchema);

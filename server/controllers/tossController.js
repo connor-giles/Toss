@@ -2,16 +2,50 @@ const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
 const Toss = require('../models/tossModel');
+const APIFilters = require('../utils/apiFilters');
+
+exports.aliasPhase0Tosses = (req, res, next) => {
+  req.query.limit = '3';
+  req.query.currentPhase = '0';
+  next();
+};
+
+exports.aliasPhase1Tosses = (req, res, next) => {
+  req.query.limit = '3';
+  req.query.currentPhase = '1';
+  next();
+};
+
+exports.aliasPhase2Tosses = (req, res, next) => {
+  req.query.limit = '3';
+  req.query.currentPhase = '2';
+  next();
+};
 
 // Retrieve all the docs
-exports.listAll = async (req, res) => {
-  await Toss.find({}, (err, data) => {
-    if (err)
-      return res.status(400).send({
-        message: err.message || 'An unknown error occurred',
-      });
-    res.json(data);
-  });
+// APIFeatures
+exports.getAllTosses = async (req, res) => {
+  try {
+    // Execute query
+    const features = new APIFilters(Toss.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const tosses = await features.query;
+
+    // Send response
+    res.status(200).json({
+      status: 'success',
+      results: tosses.length,
+      data: { tosses },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err.message || 'An unknown error occurred',
+    });
+  }
 };
 
 /* Show the current FootballClub */
@@ -32,6 +66,51 @@ exports.getToss = async (req, res) => {
       });
     });
 };
+
+// req body would contain Response 'object_id', which then gets pushed into Toss
+exports.addResponse = async (req, res) => {
+  let tossID = req.params.id;
+  let responseID = req.body._id;
+  await Toss.findByIdAndUpdate(tossID, {
+    $push: {
+      userResponses: mongoose.Schema.Types.ObjectId(responseID),
+    },
+  })
+    .then((toss) => {
+      if (!toss) {
+        return res.status(400).send({
+          error: 'Name not found with an ID ' + tossID,
+        });
+      } else {
+        console.log(responseID);
+        res.json(toss);
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message || 'An unknown error has occurred.',
+      });
+    });
+};
+
+/* .then((toss) => {
+      if (!toss) {
+        return res.status(400).send({
+          error: 'Name not found with an ID ' + tossID,
+        });
+      } else {
+        console.log(responseID);
+        toss.{ $push: { userResponses: responseID } });
+        res.json(toss);
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message || 'An unknown error has occurred.',
+      });
+    });
+}
+*/
 
 exports.updateToss = async (req, res) => {
   let id = req.params.id;
