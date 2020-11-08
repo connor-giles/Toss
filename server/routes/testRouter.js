@@ -1,7 +1,6 @@
 const testController = require('../controllers/testController.js'),
-    express = require('express'), 
-    router = express.Router()
-
+  express = require('express'),
+  router = express.Router();
 
 router.get('/', testController.listAll);
 
