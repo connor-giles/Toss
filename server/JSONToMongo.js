@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 /*
   Import modules/files you may need to correctly run the script.
  */
 
 // TO RUN THIS FILE AND ADD THINGS TO THE DB RUN "node JSONToMongo.js"
 
-const readJsonFile = require('./readFile/readFile.js')
-const NameModel = require('./models/testModel.js')
-const connectToDatabase = require('./connectMongodb.js')
-mongoose = require('mongoose')
+const readJsonFile = require('./readFile/readFile.js');
+const NameModel = require('./models/testModel.js');
+const connectToDatabase = require('./connectMongodb.js');
+mongoose = require('mongoose');
 
 const connectToDB = () => {
   return connectToDatabase().on(
-    "error",
-    console.error.bind(console, "MongoDB connection error:")
+    'error',
+    console.error.bind(console, 'MongoDB connection error:')
   );
-}
+};
 
 const count = async () => {
   // This prints the count to the console
@@ -57,7 +57,7 @@ const saveDataInDB = async (info) => {
 // };
 
 const main = async () => {
-  connectToDB()
+  connectToDB();
   /*
     Instantiate a mongoose model for each football club object in the JSON file,
     and then save it to your Mongo database
@@ -89,5 +89,4 @@ const main = async () => {
       });
 };
 
-
-main()
+main();

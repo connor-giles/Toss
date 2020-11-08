@@ -1,17 +1,13 @@
 const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
-const testModel = require('../models/testModel.js');
-
-exports.hello = function (req, res) {
-  res.send('Hello, World!');
-};
+const User = require('../models/userModel');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
-  await testModel.find({}, (err, data) => {
+  await User.find({}, (err, data) => {
     if (err)
-      return res.status(200).send({
+      return res.status(400).send({
         message: err.message || 'An unknown error occurred',
       });
     res.json(data);
@@ -19,48 +15,74 @@ exports.listAll = async (req, res) => {
 };
 
 /* Show the current FootballClub */
-exports.read = async (req, res) => {
-  let id = req.params.testId;
-  await testModel
-    .findById(id)
+exports.getUser = async (req, res) => {
+  let id = req.params.id;
+  await User.findById(id)
     .then((info) => {
       if (!info) {
         return res.status(200).send({
-          error: 'Name not found with an Id ' + id,
+          error: 'Name not found with an ID ' + id,
         });
       }
       res.json(info);
     })
     .catch((err) => {
-      res.status(200).send({
+      res.status(400).send({
         error: err.message || 'An unknown error has occurred.',
       });
     });
 };
 
-/* Create a entry in db */
-exports.create = async (req, res) => {
-  const info = req.body;
-  if (!info) {
-    return res.status(200).send({
-      error: 'info not found',
+exports.updateUser = async (req, res) => {
+  let id = req.params.id;
+  try {
+    const user = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
     });
   }
-  await new testModel(info)
+};
+
+/* Create a entry in db */
+exports.create = async (req, res) => {
+  //
+  const info = req.body;
+  //
+  if (!info) {
+    return res.status(200).send({
+      error: 'info not found in request',
+    });
+  }
+  await new User(info)
     .save()
     .then((data) => {
       res.json(data);
     })
     .catch((err) => {
-      res.status(200).send(err);
+      res.status(400).json({
+        status: 'fail',
+        message: err,
+      });
     });
 };
 
-/* Delete an entry */
-exports.remove = async (req, res) => {
+/* Delete a FootballClub */
+exports.removeUser = async (req, res) => {
   let id = req.params.testId;
 
-  await testModel.deleteOne({ _id: id }, (err) => {
+  await User.deleteOne({ _id: id }, (err) => {
     if (err) {
       return res.status(200).send({
         error: err.message || 'An unknown error occurred',

@@ -1,22 +1,25 @@
 import React from 'react';
-import { Route, Switch, Redirect  } from 'react-router-dom';
-import Home from "./views/Home/Home"
-import NotFound from "./views/NotFound"
-import Header from "./components/Header/Header"
+import './App.css';
+import Nav from './pages/Nav';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings';
+import SignIn from './pages/SignIn';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-
-const App = () => {
+function App() {
   return (
-    <div>
-      <Header />
-      <Switch>
-        <Route exact path="/Home" component={Home} />
-        <Route exact path="/">
-          <Redirect to="/Home" />
-        </Route>
-        <Route component={NotFound}/>
-      </Switch>
-    </div>
+    <Router>
+      <div className="App">
+          <Nav/>
+          <Switch>
+          <Route path="/" exact component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/signin" component={SignIn} />
+          </Switch>
+      </div>
+    </Router>
   );
 }
 
