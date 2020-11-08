@@ -33,6 +33,51 @@ exports.getToss = async (req, res) => {
     });
 };
 
+// req body would contain Response 'object_id', which then gets pushed into Toss
+exports.addResponse = async (req, res) => {
+  let tossID = req.params.id;
+  let responseID = req.body._id;
+  await Toss.findByIdAndUpdate(tossID, {
+    $push: {
+      userResponses: mongoose.Schema.Types.ObjectId(responseID),
+    },
+  })
+    .then((toss) => {
+      if (!toss) {
+        return res.status(400).send({
+          error: 'Name not found with an ID ' + tossID,
+        });
+      } else {
+        console.log(responseID);
+        res.json(toss);
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message || 'An unknown error has occurred.',
+      });
+    });
+};
+
+/* .then((toss) => {
+      if (!toss) {
+        return res.status(400).send({
+          error: 'Name not found with an ID ' + tossID,
+        });
+      } else {
+        console.log(responseID);
+        toss.{ $push: { userResponses: responseID } });
+        res.json(toss);
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message || 'An unknown error has occurred.',
+      });
+    });
+}
+*/
+
 exports.updateToss = async (req, res) => {
   let id = req.params.id;
   try {

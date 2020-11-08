@@ -1,10 +1,10 @@
 mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: String, // Starting in MongoDB 4.0.9
+  username: String,
   credentials: String,
   email: String,
-  responses: [mongoose.Schema.Types.ObjectId],
+  responses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'response' }],
   MST: {
     A: { type: Number, default: 0 },
     B: { type: Number, default: 0 },
