@@ -77,4 +77,4 @@ class APIFilters {
   }
 }
 
-module.exports = APIFeatures;
+module.exports = APIFilters;
