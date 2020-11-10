@@ -16,12 +16,12 @@ exports.listAll = async (req, res) => {
 
 /* Show the current FootballClub */
 exports.getUser = async (req, res) => {
-  let id = req.params.id;
-  await User.findById(id)
+  let user = req.params.username;
+  await User.find({ username: user })
     .then((info) => {
       if (!info) {
-        return res.status(200).send({
-          error: 'Name not found with an ID ' + id,
+        return res.status(400).send({
+          error: 'Username:' + id + ' not found.',
         });
       }
       res.json(info);

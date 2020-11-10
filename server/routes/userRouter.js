@@ -4,7 +4,9 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.route('/').get(userController.listAll).post(userController.create);
+router.route('/').get(userController.listAll);
+
+router.route('/register').post(userController.create);
 
 router
   .route('/:id')
@@ -13,5 +15,3 @@ router
   .delete(userController.removeUser);
 
 module.exports = router;
-
-/// npm run client/src/App.js
