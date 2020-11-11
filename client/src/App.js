@@ -8,7 +8,7 @@ import SignIn2 from './pages/js/SignIn2';
 import SubmitResponse from './pages/Tosses/js/Phase1';
 import Register from './pages/js/Register';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Responses from './pages/Responses';
+import Responses from './pages/js/Responses';
 
 function App() {
   return (
