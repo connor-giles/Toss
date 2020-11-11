@@ -8,7 +8,7 @@ function Home() {
     const [phaseZero, setPhaseZero] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/toss/3Phase1Tosses')
+        axios.get('http://localhost:3000/toss/3Phase0Tosses')
         .then((response) => setPhaseZero(response.data.data.tosses))
         .catch((error) => console.error(error))
     }, []);
@@ -40,6 +40,7 @@ function Home() {
                         <h2 className="prompts">Prompts</h2>
                         {phaseZero.map(toss => 
                         <div className="info">{toss.prompt}</div>)}
+                        <h3>Starts Tomorrow</h3>
                     </div>
                 </div>
                 <div className="tossOne">
@@ -48,6 +49,7 @@ function Home() {
                         <h2 className="prompts">Prompts</h2>
                         {phaseOne.map(toss => 
                         <div className="info">{toss.prompt}</div>)}
+                        <h3>Starts Today</h3>
                     </div>
                 </div>
                 <div className="tossTwo">
@@ -56,6 +58,7 @@ function Home() {
                          <h2 className="prompts">Prompts</h2>
                         {phaseTwo.map(toss => 
                         <div className="info">{toss.prompt}</div>)}
+                        <h3>Started Yesterday</h3>
                     </div>
                 </div>
             </div>

@@ -44,34 +44,38 @@
   flex-direction: row;
   justify-content: center;
   padding: 40px;
+  position: relative;  
 }
+
 
 .tossZero {
   display: flex;
   width: 33.33%;
-  height: 300px;
-  background: rgb(211, 211, 211);
+  height: 250px;;
+  background: rgb(230, 230, 230);
   text-align: center;
   justify-content: center;  
-  
+  padding: 25px;
 }
 
 .tossOne {
   display: flex;
   width: 33.33%;
-  height: 300px;;
-  background: rgb(201, 200, 200);
+  height: 250px;;
+  background: rgb(226, 226, 226);
   text-align: center;  
   justify-content: center; 
+  padding: 25px;
 }
 
 .tossTwo {
   display: flex;
   width: 33.33%;
-  height: 300px;
-  background: rgb(175, 175, 175);
+  height: 250px;;
+  background: rgb(224, 223, 223);
   text-align: center;  
   justify-content: center; 
+  padding: 25px;
 }
 
 .prompts {
