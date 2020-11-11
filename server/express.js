@@ -2,6 +2,7 @@ const path = require('path'),
   express = require('express'),
   mongoose = require('mongoose'),
   morgan = require('morgan'),
+  cors = require('cors'),
   bodyParser = require('body-parser'),
   testRouter = require('./routes/testRouter'),
   responseRouter = require('./routes/responseRouter'),
@@ -25,6 +26,8 @@ module.exports.init = () => {
   // initialize app
   const app = express();
 
+  app.use(cors());
+
   // enable request logging for development debugging
   app.use(morgan('dev'));
 
@@ -36,6 +39,12 @@ module.exports.init = () => {
   app.use('/response', responseRouter);
   app.use('/toss', tossRouter);
   app.use('/user', userRouter);
+  app.all('*', (req, res, next) => {
+    res.status(404).json({
+      status: 'fail',
+      message: `Can't find ${req.originalUrl} on this server!`,
+    });
+  });
 
   if (process.env.NODE_ENV === 'production') {
     // Serve any static files

@@ -55,28 +55,26 @@ exports.updateResponse = async (req, res) => {
   }
 };
 
+const catchAsync = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+};
+
 /* Create a entry in db */
-exports.create = async (req, res) => {
+exports.create = catchAsync(async (req, res) => {
   //
   const info = req.body;
   //
   if (!info) {
-    return res.status(200).send({
+    return res.status(400).send({
       error: 'info not found in request',
     });
   }
-  await new Response(info)
-    .save()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.status(400).json({
-        status: 'fail',
-        message: err,
-      });
-    });
-};
+  await new Response(info).save().then((data) => {
+    res.json(data);
+  });
+});
 
 /* Delete a FootballClub */
 exports.remove = async (req, res) => {

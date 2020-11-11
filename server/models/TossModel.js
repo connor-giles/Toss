@@ -39,8 +39,22 @@ const tossSchema = new mongoose.Schema({
 
   // One of four categories: Politics, Social, Environment, Science and Technology
   category: {
-    type: String,
-    required: [true, 'A toss must have a phase'],
+    science: {
+      type: Boolean,
+      default: 0,
+    },
+    politics: {
+      type: Boolean,
+      default: 0,
+    },
+    environment: {
+      type: Boolean,
+      default: 0,
+    },
+    society: {
+      type: Boolean,
+      default: 0,
+    },
   },
 
   // Phase 0 = hasn't started
