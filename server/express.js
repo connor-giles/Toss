@@ -9,6 +9,7 @@ const path = require('path'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
 
+  var cors = require('cors')
 module.exports.init = () => {
   /* connect to database
         - reference README for db uri
@@ -31,6 +32,7 @@ module.exports.init = () => {
   // enable request logging for development debugging
   app.use(morgan('dev'));
 
+  app.use(cors());
   // body parsing middleware
   app.use(bodyParser.json());
 
