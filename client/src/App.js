@@ -8,6 +8,7 @@ import SignIn2 from './pages/js/SignIn2';
 import SubmitResponse from './pages/Tosses/js/Phase1';
 import Register from './pages/js/Register';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Responses from './pages/Responses';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signin" component={SignIn2} />
           <Route path="/response" component={SubmitResponse} />
           <Route path="/register" component={Register} />
+          <Route path="/responses" component={Responses} />
         </Switch>
       </div>
     </Router>
