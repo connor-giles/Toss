@@ -33,7 +33,6 @@ const useStyles = makeStyles({
 export default function CardOne() {
   const classes = useStyles();
   const [phaseOne, setPhaseOne] = useState([]);
-  const [data, setData] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
 
 
@@ -41,12 +40,6 @@ export default function CardOne() {
     axios.get('http://localhost:3000/toss/3Phase1Tosses')
     .then((response) => setPhaseOne(response.data.data.tosses))
     .catch((error) => console.error(error))
-}, []);
-
-useEffect(() => {
-  axios.get('http://localhost:3000/response/')
-  .then((response) => setData(response.data))
-  .catch((error) => console.error(error))
 }, []);
 
 
@@ -58,7 +51,7 @@ useEffect(() => {
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5" component="h2">
-         Phase Two
+         Phase One
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           Prompts
@@ -84,12 +77,7 @@ useEffect(() => {
         <CardContent>
           <Typography paragraph>Responses:</Typography>
           <Typography paragraph>
-          {data.map(userRes => 
-              <div className="info">
-                <p>user: </p>
-                <p>{userRes.userID}  <br />{userRes.comment} </p>
-                <p>{"\n"}</p>
-              </div>)}
+            Responses not visible  until 24 hour answering period ends.   
           </Typography>
         </CardContent>
       </Collapse>

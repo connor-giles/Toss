@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export default function CardTwo() {
   const classes = useStyles();
   const [phaseTwo, setPhaseTwo] = useState([]);
-  
+  const [data, setData] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -42,6 +42,12 @@ export default function CardTwo() {
     axios.get('http://localhost:3000/toss/3Phase2Tosses')
     .then((response) => setPhaseTwo(response.data.data.tosses))
     .catch((error) => console.error(error))
+}, []);
+
+useEffect(() => {
+  axios.get('http://localhost:3000/response/')
+  .then((response) => setData(response.data))
+  .catch((error) => console.error(error))
 }, []);
 
   return (
@@ -74,7 +80,11 @@ export default function CardTwo() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            Cannot view responses; must join the Toss first.
+          {data.map(userRes => 
+              <div className="info">
+                <p>{userRes.userID}  <br />{userRes.comment} </p>
+                <p>{"\n"}</p>
+              </div>)}
           </Typography>
         </CardContent>
       </Collapse>
