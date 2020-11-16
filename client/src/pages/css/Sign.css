@@ -18,7 +18,7 @@
 }
 
 .form {
-  width: 350px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   padding: 20px 40px;
@@ -55,3 +55,4 @@
   border-radius: 20px;
   border: #e1e1e1;
 }
+

@@ -22,6 +22,11 @@ function Nav() {
         <Link to="/register" className="nav-links">
           <li>REGISTER</li>
         </Link>
+
+        <Link to="/quiz" className="nav-links">
+          <li>QUIZ</li>
+        </Link>
+
       </div>
     </nav>
   );

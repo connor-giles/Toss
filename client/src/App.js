@@ -7,6 +7,7 @@ import Settings from './pages/js/Settings';
 import SignIn2 from './pages/js/SignIn2';
 import SubmitResponse from './pages/Tosses/js/Phase1';
 import Register from './pages/js/Register';
+import Quiz from './pages/js/Quiz';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Responses from './pages/js/Responses';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/response" component={SubmitResponse} />
           <Route path="/register" component={Register} />
           <Route path="/responses" component={Responses} />
+          <Route path="/quiz" component={Quiz} />
         </Switch>
       </div>
     </Router>

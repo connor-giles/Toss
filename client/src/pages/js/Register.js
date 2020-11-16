@@ -58,7 +58,7 @@ export default class Register extends Component {
         console.log(res.data);
       })
       .catch((error) => {
-        console.log('User already exists');
+        console.log(error.message);
       });
 
     this.setState({
