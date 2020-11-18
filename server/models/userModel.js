@@ -47,12 +47,11 @@ const userSchema = new mongoose.Schema({
   ],
 
   MST: {
-    A: { type: Number, default: 0 },
-    B: { type: Number, default: 0 },
-    C: { type: Number, default: 0 },
-    D: { type: Number, default: 0 },
-    E: { type: Number, default: 0 },
-    F: { type: Number, default: 0 },
+    care: { type: Number, default: 0 },
+    fairness: { type: Number, default: 0 },
+    ingroupLoyalty: { type: Number, default: 0 },
+    authorityRespect: { type: Number, default: 0 },
+    puritySanctity: { type: Number, default: 0 },
   },
 });
 
