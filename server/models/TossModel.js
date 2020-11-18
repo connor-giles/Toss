@@ -8,7 +8,7 @@ const model = {
   _id: { $oid: '5f99c419ad05fd8e97da3485' },
   date: { date: '2020-10-28T04:00:00.000Z' },
   prompt:
-    'Should the supreme court nomination have been tabled until after the election?',
+    'Should the supreme court nomination have been tabled until after an election?',
   userResponses: [
     {
       userID: 'colmepao',
