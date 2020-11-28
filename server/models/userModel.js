@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, 'A user must have login credentials '],
-    // TODO: implement fields such that, with the next line, credentials is never sent to the client
     select: false,
     minlength: 8,
   },
