@@ -1,22 +1,14 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const express = require('./express.js');
+const dotenv = require('dotenv');
 
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: 'server/config.env' });
 
-/*
-const DB_TD = process.env.DATABASE_URI;
-mongoose
-  .connect(DB_TD, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then((con) => {
-    console.log(con.connections);
-    console.log('DB connection successful');
-  });
-*/
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED EXCEPTION! Shutting down...');
+  process.exit(1);
+});
 
 const port = process.env.PORT || 3000;
 

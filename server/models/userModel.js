@@ -1,5 +1,6 @@
 mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -28,6 +29,7 @@ const userSchema = new mongoose.Schema({
       validator: function (el) {
         return el === this.credentials;
       },
+      message: 'Passwords are not the same!',
     },
   },
 
@@ -37,6 +39,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'A user must have an email '],
     lowercase: true,
     validate: [validator.isEmail],
+    unique: [true, 'email already used'],
   },
 
   responses: [
@@ -46,14 +49,46 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  MST: {
+  MFT: {
     care: { type: Number, default: 0 },
     fairness: { type: Number, default: 0 },
     ingroupLoyalty: { type: Number, default: 0 },
     authorityRespect: { type: Number, default: 0 },
     puritySanctity: { type: Number, default: 0 },
   },
+
+  credentialsChangedAt: Date,
 });
+
+userSchema.pre('save', async function (next) {
+  // Only runs if the password is created or modified
+  if (!this.isModified('credentials')) return next();
+
+  // Hash the password with cost of 12
+  this.credentials = await bcrypt.hash(this.credentials, 12);
+
+  // Delete the password confirm field.
+  this.credentialsConfirm = undefined;
+  next();
+});
+
+userSchema.methods.correctCredentials = async function (
+  candidateCredentials,
+  userCredentials
+) {
+  return await bcrypt.compare(candidateCredentials, userCredentials);
+};
+
+userSchema.methods.changedCredentialsAfter = function (JWTTimestamp) {
+  if (this.credentialsChangedAt) {
+    const changedTimestamp = parseInt(
+      this.credentialsChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
 
 const User = mongoose.model('User', userSchema);
 

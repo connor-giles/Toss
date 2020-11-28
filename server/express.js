@@ -11,12 +11,6 @@ const path = require('path'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
 
-process.on('uncaughtException', (err) => {
-  console.log(err.name, err.message);
-  console.log('UNHANDLED EXCEPTION! Shutting down...');
-  process.exit(1);
-});
-
 module.exports.init = () => {
   /* connect to database
         - reference README for db uri
@@ -41,6 +35,11 @@ module.exports.init = () => {
 
   // body parsing middleware
   app.use(bodyParser.json());
+
+  app.use((req, res, next) => {
+    //console.log(req.headers);
+    next();
+  });
 
   // add a router
   app.use('/api/test', testRouter);
