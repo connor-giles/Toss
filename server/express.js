@@ -4,6 +4,8 @@ const path = require('path'),
   morgan = require('morgan'),
   cors = require('cors'),
   bodyParser = require('body-parser'),
+  AppError = require('./utils/appError'),
+  globalErrorHandler = require('./controllers/errorController'),
   testRouter = require('./routes/testRouter'),
   responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
@@ -13,13 +15,13 @@ module.exports.init = () => {
   /* connect to database
         - reference README for db uri
   */
-  mongoose.connect(
-    process.env.DB_URI || require('./config/config').db.uri_TossData,
-    {
+  mongoose
+    .connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }
-  );
+    })
+    .then(() => console.log('DB connection successful!'))
+    .catch((err) => SVGForeignObjectElement.log('ERROR'));
   mongoose.set('useCreateIndex', true);
   mongoose.set('useFindAndModify', false);
 
@@ -34,17 +36,22 @@ module.exports.init = () => {
   // body parsing middleware
   app.use(bodyParser.json());
 
+  app.use((req, res, next) => {
+    //console.log(req.headers);
+    next();
+  });
+
   // add a router
   app.use('/api/test', testRouter);
   app.use('/response', responseRouter);
   app.use('/toss', tossRouter);
   app.use('/user', userRouter);
   app.all('*', (req, res, next) => {
-    res.status(404).json({
-      status: 'fail',
-      message: `Can't find ${req.originalUrl} on this server!`,
-    });
+    //whenever something is passed into next, that data passed in is innately expected to be an error
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
   });
+
+  app.use(globalErrorHandler);
 
   if (process.env.NODE_ENV === 'production') {
     // Serve any static files

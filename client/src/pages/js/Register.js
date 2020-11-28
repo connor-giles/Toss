@@ -111,7 +111,6 @@ export default class Register extends Component {
                 className="form-control"
               />
             </div>
-            <p> {this.state.credentials} </p>
             <div className="signInButton">
               <input
                 type="submit"
