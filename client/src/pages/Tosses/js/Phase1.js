@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../css/Phase1.css'
 import axios from 'axios';
 
 export default class SubmitResponse extends Component {
@@ -27,6 +28,8 @@ export default class SubmitResponse extends Component {
 
   onInputComment(e) {
     this.setState({ comment: e.target.value });
+    var totalCount = e.target.value;
+    this.setState({ count: totalCount.length})
   }
 
   onSubmit(e) {
@@ -47,45 +50,43 @@ export default class SubmitResponse extends Component {
         console.log(error);
       });
 
-    this.setState({ userID: '', source: '', comment: '' });
+    this.setState({ userID: '', source: '', comment: ''});
   }
 
   render() {
     return (
-      <div className="wrapper">
-        <form onSubmit={this.onSubmit}>
+      <div className="page">
+        <form className="wrapper"
+          onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Add User Name</label>
-            <input
+            <label className="label">Add User Name</label>
+            <input className="user-input"
               type="text"
               value={this.state.userID}
               onChange={this.onInputUser}
-              className="form-control"
             />
           </div>
           <div className="form-group">
-            <label> Input Comment </label>
-            <input
+            <label className="label"> Input Comment </label>
+            <textarea className="comment-input"
               type="text"
               value={this.state.source}
               onChange={this.onInputSource}
-              className="form-control"
             />
+            <p>{this.state.count}</p>
           </div>
           <div className="form-group">
-            <label> Input Source </label>
-            <input
+            <label className="label"> Input Source </label>
+            <input className="source-input"
               type="text"
               value={this.state.comment}
               onChange={this.onInputComment}
-              className="form-control"
             />
           </div>
           <div className="form-group">
-            <input
+            <input className="button"
               type="submit"
               value="Submit"
-              className="btn btn-success btn-block"
             />
           </div>
         </form>
