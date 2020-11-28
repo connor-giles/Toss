@@ -4,19 +4,19 @@ const APIFilters = require('../utils/apiFilters');
 const AppError = require('../utils/appError');
 
 exports.aliasPhase0Tosses = (req, res, next) => {
-  req.query.limit = '3';
+  req.query.limit = '4';
   req.query.currentPhase = '0';
   next();
 };
 
 exports.aliasPhase1Tosses = (req, res, next) => {
-  req.query.limit = '3';
+  req.query.limit = '4';
   req.query.currentPhase = '1';
   next();
 };
 
 exports.aliasPhase2Tosses = (req, res, next) => {
-  req.query.limit = '3';
+  req.query.limit = '4';
   req.query.currentPhase = '2';
   next();
 };
