@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/Sign.css';
+import config from "../../config/config.js"
+
+
 let bcrypt = require('bcryptjs');
-import config from "../config/config.js"
+
 
 export default class Register extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import config from "../config/config.js"
+import config from "../../../config/config.js"
 
 export default class SubmitResponse extends Component {
   constructor(props) {

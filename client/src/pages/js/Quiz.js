@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/quiz.css';
+import config from "../../config/config.js"
+
+
+
 let bcrypt = require('bcryptjs');
 //var json = require('../questions/questions.json');
-import config from "../config/config.js"
+
 
 var answers = new Array(32);
 export default class Register extends Component {
