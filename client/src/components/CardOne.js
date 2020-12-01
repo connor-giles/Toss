@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import config from "../config/config.js"
 
 
 
@@ -35,9 +36,9 @@ export default function CardOne() {
   const [phaseOne, setPhaseOne] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
 
-
+  //gets 4 tosses categories in phase 1
   useEffect(() => {
-    axios.get('http://localhost:3000/toss/3Phase1Tosses')
+    axios.get(config.DOMAIN.name + 'toss/3Phase1Tosses')
     .then((response) => setPhaseOne(response.data.data.tosses))
     .catch((error) => console.error(error))
 }, []);

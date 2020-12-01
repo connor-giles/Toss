@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import config from "../config/config.js"
 
 export default class SubmitResponse extends Component {
   constructor(props) {
@@ -38,8 +39,9 @@ export default class SubmitResponse extends Component {
       comment: this.state.comment,
     };
 
+    //posts the user's answer to the promt to the backend
     axios
-      .post('http://localhost:3000/response', tossResponse)
+      .post(config.DOMAIN.name + 'response', tossResponse)
       .then((res) => {
         console.log(res.data);
       })
