@@ -58,11 +58,11 @@ export default class SignIn extends Component {
           <h1 className="pageTitles">Sign In</h1>
           <form onSubmit={this.onSubmit}>
             <div className="username">
-              <label className="title">Enter Username:</label>
+              <label className="title">Enter Email:</label>
               <input
                 type="text"
-                value={this.state.userName}
-                onChange={this.onInputUser}
+                value={this.state.email}
+                onChange={this.onInputEmail}
                 className="form-control"
               />
             </div>

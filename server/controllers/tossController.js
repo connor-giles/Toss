@@ -1,4 +1,5 @@
 const Toss = require('../models/tossModel');
+const Response = require('../models/responseModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFilters = require('../utils/apiFilters');
 const AppError = require('../utils/appError');
@@ -20,6 +21,17 @@ exports.aliasPhase2Tosses = (req, res, next) => {
   req.query.currentPhase = '2';
   next();
 };
+
+/*
+exports.queryTosses = catchAsync(async(query, queryString) => { = 
+   const features = new APIFilters(Toss.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const tosses = await features.query;
+})
+*/
 
 // Retrieve all the docs
 // APIFeatures
@@ -124,3 +136,22 @@ exports.getTossStats = catchAsync(async (req, res, next) => {
     },
   ]);
 });
+
+// Used to make sure that a user only gets given one Toss a day to respond to
+exports.limitToOneToss = catchAsync(async (req, res, next) => {
+  const currentTosses = await Toss.find({ currentPhase: { $eq: 1 } });
+  let response;
+  currentTosses.map((toss) => {
+    toss.userResponses.map(async (responseID) => {
+      response = await Response.findById(responseID);
+      if (response.userID === user._id) {
+        return next(
+          new AppError('User has already responded to a Toss today', 409)
+        );
+      }
+    });
+  });
+  next();
+});
+
+exports.getTossed = catchAsync(async (req, res, next) => {});
