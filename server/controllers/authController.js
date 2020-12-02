@@ -3,10 +3,23 @@ const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const router = require('../routes/tossRouter');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user,
+    },
   });
 };
 
@@ -20,15 +33,7 @@ exports.register = async (req, res, next) => {
     credentialsConfirm: req.body.credentialsConfirm,
   });
 
-  const token = signToken(newUser._id);
-
-  res.status(201).json({
-    status: 'success',
-    token,
-    data: {
-      user: newUser,
-    },
-  });
+  createSendToken(newUser, 201, res);
 };
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -50,14 +55,12 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3 If esverything is ok, send token to client
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 // MIDDLEWARE: Protected routes
+// Creates 'user' object on req object which contains the logged in User
+// for middleware following .protect, you can use 'user' to refer to the logged in User
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   //1 Get token and check if it's there
@@ -93,3 +96,51 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
+
+// roles is an array of parameters for which to restrict access to
+// this is a necessary approach since Middleware aren't supposed to have other parameters passed into them
+exports.restrictToRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+    next();
+  };
+};
+
+exports.updateCredentials = catchAsync(async (req, res, next) => {
+  // 1) Get user from collection
+  const user = await User.findById(req.user.id).select('+credentials');
+
+  // 2) Check if POSTed current credentials is correct
+  if (
+    !(await user.correctCredentials(
+      req.body.credentialsCurrent,
+      user.credentials
+    ))
+  ) {
+    return next(new AppError('Your current password is wrong.', 401));
+  }
+
+  // 3) If so, update credentials
+  user.credentials = req.body.credentials;
+  user.credentialsConfirm = req.body.credentialsConfirm;
+  await user.save();
+  // User.findByIdAndUpdate will NOT work as intended!
+
+  // 4) Log user in, send JWT
+  createSendToken(user, 200, res);
+});
+
+exports.restrictToResponded = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+    next();
+  };
+};

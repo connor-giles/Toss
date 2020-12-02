@@ -1,6 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const tossController = require('../controllers/tossController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -40,6 +41,14 @@ router
 router
   .route('/:id/newResponse')
   //.get(tossController.getResponse)
-  .patch(tossController.addResponse);
+  .patch(authController.protect, tossController.addResponse);
+
+router
+  .route('/getTossed')
+  .patch(
+    authController.protect,
+    tossController.limitToOneToss,
+    tossController.getTossed
+  );
 
 module.exports = router;

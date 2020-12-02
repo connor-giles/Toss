@@ -11,10 +11,17 @@ router.post('/register', authController.register);
 
 router.post('/login', authController.login);
 
-router
+router.patch(
+  '/updateMyPassword',
+  authController.protect,
+  authController.updateCredentials
+);
+
+/*router
   .route('/:id')
   .get(authController.protect, userController.getUser)
   .patch(authController.protect, userController.updateUser)
   .delete(authController.protect, userController.removeUser);
-authController.protect;
+*/
+
 module.exports = router;
