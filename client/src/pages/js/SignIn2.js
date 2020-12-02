@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/Sign.css';
+import GLoginHooks from '../../components/GLoginHook.js';
+import GLogoutHooks from '../../components/GLogoutHook.js';
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -82,6 +84,8 @@ export default class SignIn extends Component {
                 className="btn btn-success btn-block"
               />
             </div>
+            {/* <GLoginHooks /> */}
+            {/* <GLogoutHooks /> */}
           </form>
         </div>
       </div>
