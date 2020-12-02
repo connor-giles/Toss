@@ -10,7 +10,7 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const app = express.init();
 

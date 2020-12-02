@@ -36,10 +36,10 @@
     "mongoose": "^5.10.11",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
+    "serve": "^11.3.2",
     "should": "^13.2.3",
     "supertest": "^4.0.2",
     "validator": "^13.1.17"
   },
-  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme",
-  "proxy": "http://localhost:3000"
+  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme"
 }

@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import config from "../config/config.js"
 
 
 export default function CardZero() {
@@ -21,8 +22,9 @@ export default function CardZero() {
     setExpanded(!expanded);
   };
 
+  //gets 4 categories for phase 0
   useEffect(() => {
-    axios.get('http://localhost:3000/toss/3Phase0Tosses')
+    axios.get(config.DOMAIN.name + 'toss/3Phase0Tosses')
     .then((response) => setPhaseZero(response.data.data.tosses))
     .catch((error) => console.error(error))
   }, []);
