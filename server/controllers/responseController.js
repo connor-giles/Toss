@@ -72,7 +72,7 @@ exports.create = catchAsync(async (req, res, next) => {
     });
   }
   const response = await new Response(info).save();
-  req.response_id = response._id;
+  req.newResponse = response;
   next();
 });
 
