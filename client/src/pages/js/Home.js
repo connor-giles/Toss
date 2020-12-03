@@ -12,10 +12,11 @@ function Home() {
   return (
     <div className="homePage">
       <div className="landing">
-        <h1 className="welcome">Welcome to Toss</h1>
+        <h1 className="welcome">Welcome to T.O.S.S</h1>
         <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt
-          non enim ut pretium. Morbi accumsan dignissim gravida.{' '}
+          That One Study Shows...
+          <br></br>
+          Making the world more educated, one study at a time{' '}
         </p>
       </div>
 
