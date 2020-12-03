@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import config from "../config/config.js"
 
 
 export default function CardTwo() {
@@ -21,17 +22,19 @@ export default function CardTwo() {
     setExpanded(!expanded);
   };
 
+  //gets 4 toss categories from phase 2
   useEffect(() => {
-    axios.get('http://localhost:3000/toss/3Phase2Tosses')
+    axios.get(config.DOMAIN.name + 'toss/3Phase2Tosses')
     .then((response) => setPhaseTwo(response.data.data.tosses))
     .catch((error) => console.error(error))
 }, []);
 
-useEffect(() => {
-  axios.get('http://localhost:3000/response/')
-  .then((response) => setData(response.data))
-  .catch((error) => console.error(error))
-}, []);
+  //gets all responses from the database
+  useEffect(() => {
+    axios.get(config.DOMAIN.name + 'response')
+    .then((response) => setData(response.data))
+    .catch((error) => console.error(error))
+  }, []);
 
   return (
     <Card className={classes.root}>

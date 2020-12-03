@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/quiz.css';
+import config from "../../config/config.js"
+
+
+
 let bcrypt = require('bcryptjs');
 //var json = require('../questions/questions.json');
+
 
 var answers = new Array(32);
 export default class Register extends Component {
@@ -28,8 +33,9 @@ export default class Register extends Component {
       answers: this.state.answers,
     };
 
+    //post user's quiz answers to backend
     axios
-      .post('http://localhost:3000/user/quiz', user)
+      .post(config.DOMAIN.name + 'user/quiz', user)
       .then((res) => {
         console.log(res.data);
       })
