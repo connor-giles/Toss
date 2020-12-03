@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const express = require('./express.js');
 const dotenv = require('dotenv');
+const path = require('path')
 
-dotenv.config({ path: 'server/config.env' });
+dotenv.config({path: __dirname + '/config/config.env'});
 
 process.on('uncaughtException', (err) => {
   console.log(err.name, err.message);
@@ -11,6 +12,9 @@ process.on('uncaughtException', (err) => {
 });
 
 const port = process.env.PORT || 3001;
+
+console.log(process.env)
+
 
 const app = express.init();
 
