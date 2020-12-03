@@ -12,25 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import config from "../config/config.js"
 
 
-
-
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function CardOne() {
   const classes = useStyles();
   const [phaseOne, setPhaseOne] = useState([]);
@@ -57,10 +38,43 @@ export default function CardOne() {
         <Typography className={classes.pos} color="textSecondary">
           Prompts
         </Typography>
-        <Typography variant="body2" component="p">
-          {phaseOne.map(toss => 
-              <div className="info">{toss.prompt}<p>{"\n"}</p></div>)}
-        </Typography>
+        <div className="tosses">       
+          {phaseOne.map(toss => {
+            if(toss.category.science) {
+              return (
+                <div className="science"> 
+                  <Typography className={classes.tossTitle}>Science and Technology</Typography>
+                  {toss.prompt} {toss.category.science}
+                  <p>{"\n"}</p>
+              </div>
+              )
+            } else if (toss.category.politics) {
+              return (
+                <div className="politics"> 
+                  <Typography className={classes.tossTitle}>Politics</Typography>
+                  {toss.prompt}
+                  <p>{"\n"}</p>
+              </div>
+              )
+            } else if (toss.category.environment) {
+              return (
+                <div className="environment"> 
+                   <Typography className={classes.tossTitle}>Environment</Typography>
+                  {toss.prompt}
+                  <p>{"\n"}</p>
+              </div>
+              )
+            } else if (toss.category.society) {
+              return (
+                <div className="society"> 
+                   <Typography className={classes.tossTitle}>Society</Typography>
+                  {toss.prompt}
+                  <p>{"\n"}</p>
+              </div>
+              )
+            }
+          })}
+        </div>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
@@ -88,3 +102,24 @@ export default function CardOne() {
     </Card>
   );
 }
+
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  tossTitle : {
+    fontWeight: 'bold',
+  }
+});

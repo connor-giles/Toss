@@ -93,3 +93,41 @@
   font-weight: 325; 
 }
 
+.science {
+  background-color: #c8e1ff;
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 10px;
+  height: 100px;
+}
+
+.politics {
+  background-color: rgb(255, 250, 197);
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 10px;
+  height: 100px;
+}
+
+.environment {
+  background-color: rgb(224, 255, 196);
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 10px;
+  height: 100px;
+}
+
+.society {
+  background-color: rgb(236, 215, 255);
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 10px;
+  height: 100px;
+}
+
+.tosses {
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: center;
+}
+

@@ -1,59 +1,48 @@
-const { test } = require('mocha');
-const { Collection } = require('mongoose');
-const { db } = require('../config/config.js');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 const User = require('../models/userModel');
 
 // Retrieve all the docs
-exports.listAll = async (req, res) => {
-  await User.find({}, (err, data) => {
-    if (err)
-      return res.status(400).send({
-        message: err.message || 'An unknown error occurred',
-      });
-    res.json(data);
+exports.listAll = catchAsync(async (req, res) => {
+  const users = await User.find();
+
+  // Send response
+  res.status(200).json({
+    status: 'success',
+    results: users.length,
+    data: { users },
   });
-};
+});
 
 /* Show the current FootballClub */
-exports.getUser = async (req, res) => {
-  let user = req.params.username;
-  await User.find({ username: user })
-    .then((info) => {
-      if (!info) {
-        return res.status(400).send({
-          error: 'Username:' + id + ' not found.',
-        });
-      }
-      res.json(info);
-    })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message || 'An unknown error has occurred.',
-      });
-    });
-};
-
-exports.updateUser = async (req, res) => {
-  let id = req.params.id;
-  try {
-    const user = await User.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
+exports.getUser = catchAsync(async (req, res) => {
+  let userID = req.params.id;
+  const user = await User.findById(userID);
+  if (!user) {
+    return next(new AppError('Username:' + id + ' not found.', 404));
+  } else {
     res.status(200).json({
       status: 'success',
-      data: {
-        user,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
+      data: user,
     });
   }
-};
+});
+
+exports.updateUser = catchAsync(async (req, res) => {
+  let id = req.params.id;
+  const user = await User.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!user) {
+    return next(new AppError('Username:' + id + ' not found.', 404));
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: user,
+    });
+  }
+});
 
 /* Create a entry in db */
 exports.create = async (req, res) => {
@@ -61,7 +50,7 @@ exports.create = async (req, res) => {
   const info = req.body;
   //
   if (!info) {
-    return res.status(200).send({
+    return res.status(400).send({
       error: 'info not found in request',
     });
   }
