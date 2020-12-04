@@ -13,7 +13,7 @@ process.on('uncaughtException', (err) => {
 
 const port = process.env.PORT || 3001;
 
-console.log(process.env)
+//console.log(process.env)
 
 
 const app = express.init();

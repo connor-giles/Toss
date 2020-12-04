@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,6 +37,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [credentials, setCredentials] = useState('');
+  
+
+  function onSubmit(event) {
+    event.preventDefault();
+
+    const user = {
+      userName: userName,
+      credentials: credentials,
+      email: email,
+    }
+
+    axios
+      .post(config.DOMAIN.name + 'user/login', user)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+
+    setUserName('');
+    setEmail('');
+    setCredentials('');
+
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -51,7 +79,7 @@ export default function SignIn() {
           Sign In to T.O.S.S
         </Typography>
 
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}> 
           <TextField
             variant="outlined"
             margin="normal"
@@ -62,6 +90,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={event => setEmail(event.target.value)}
           />
 
           <TextField
@@ -74,6 +103,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={event => setCredentials(event.target.value)}
           />
 
           <Button
