@@ -5,6 +5,7 @@ import Home from './pages/js/Home';
 import Profile from './pages/js/Profile';
 import Settings from './pages/js/Settings';
 import SignIn2 from './pages/js/SignIn2';
+import MaterialSignIn from './pages/js/MaterialSignIn.js';
 import GoogleBtn from './pages/js/GoogleSignIn';
 import SubmitResponse from './pages/Tosses/js/Phase1';
 import Register from './pages/js/Register';

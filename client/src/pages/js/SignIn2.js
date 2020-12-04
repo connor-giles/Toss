@@ -45,7 +45,7 @@ export default class SignIn extends Component {
 
     //submits user account info to backend for sign in
     axios
-      .get(config.DOMAIN.name + 'user', user)
+      .post(config.DOMAIN.name + 'user/login', user)
       .then((res) => {
         console.log(res.data);
       })
@@ -61,7 +61,9 @@ export default class SignIn extends Component {
       <div className="wrapper">
         <div className="form">
           <h1 className="pageTitles">Sign In</h1>
+
           <form onSubmit={this.onSubmit}>
+
             <div className="username">
               <label className="title">Enter Email:</label>
               <input
@@ -71,6 +73,7 @@ export default class SignIn extends Component {
                 className="form-control"
               />
             </div>
+
             <div className="pw">
               <label className="title">Enter Password:</label>
               <input
@@ -80,6 +83,7 @@ export default class SignIn extends Component {
                 className="form-control"
               />
             </div>
+
             <div className="signInButton">
               <input
                 type="submit"
@@ -87,9 +91,9 @@ export default class SignIn extends Component {
                 className="btn btn-success btn-block"
               />
             </div>
-            {/* <GLoginHooks /> */}
-            {/* <GLogoutHooks /> */}
+
           </form>
+
         </div>
       </div>
     );
