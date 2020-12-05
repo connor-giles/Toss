@@ -55,9 +55,12 @@ export default function SignIn() {
       .post(config.DOMAIN.name + 'user/login', user)
       .then((res) => {
         console.log(res.data);
+        //window.location.href = config.DOMAIN.frontendHome; //should send back to home MAY OVERWRTE TOKEN????
+        //console.log('login successful')
       })
       .catch((error) => {
         console.log(error);
+        //console.log('login failed')
     });
 
     setUserName('');
@@ -135,35 +138,3 @@ export default function SignIn() {
     </Container>
   );
 }
-
-{/* <form onSubmit={this.onSubmit}>
-
-<div className="username">
-  <label className="title">Enter Email:</label>
-  <input
-    type="text"
-    value={this.state.email}
-    onChange={this.onInputEmail}
-    className="form-control"
-  />
-</div>
-
-<div className="pw">
-  <label className="title">Enter Password:</label>
-  <input
-    type="password"
-    value={this.state.credentials}
-    onChange={this.onInputCredentials}
-    className="form-control"
-  />
-</div>
-
-<div className="signInButton">
-  <input
-    type="submit"
-    value="Sign In"
-    className="btn btn-success btn-block"
-  />
-</div>
-
-</form> */}
