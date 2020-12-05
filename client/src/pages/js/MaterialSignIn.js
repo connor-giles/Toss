@@ -60,7 +60,7 @@ export default function SignIn() {
       })
       .catch((error) => {
         console.log(error);
-        //console.log('login failed')
+        console.log('login failed')
     });
 
     setUserName('');
