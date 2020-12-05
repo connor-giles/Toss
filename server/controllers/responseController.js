@@ -62,7 +62,7 @@ const catchAsync = (fn) => {
 };
 
 /* Create a entry in db */
-exports.create = catchAsync(async (req, res) => {
+exports.create = catchAsync(async (req, res, next) => {
   //
   const info = req.body;
   //
@@ -71,9 +71,9 @@ exports.create = catchAsync(async (req, res) => {
       error: 'info not found in request',
     });
   }
-  await new Response(info).save().then((data) => {
-    res.json(data);
-  });
+  const response = await new Response(info).save();
+  req.newResponse = response;
+  next();
 });
 
 /* Delete a FootballClub */
