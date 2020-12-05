@@ -45,7 +45,7 @@ export default function CardZero() {
               return (
                 <div className="science"> 
                   <Typography className={classes.tossTitle}>Science and Technology</Typography>
-                  {toss.prompt} {toss.category.science}
+                  {toss.prompt}
                   <p>{"\n"}</p>
               </div>
               )
