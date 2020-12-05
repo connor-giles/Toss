@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/Phase1.css';
 import axios from 'axios';
-import config from "../../../config/config.js"
+import config from '../../../config/config.js';
 
 export default class SubmitResponse extends Component {
   constructor(props) {

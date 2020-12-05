@@ -3,8 +3,7 @@ import axios from 'axios';
 import '../css/Sign.css';
 import GLoginHooks from '../../components/GLoginHook.js';
 import GLogoutHooks from '../../components/GLogoutHook.js';
-import config from "../../config/config.js"
-
+import config from '../../config/config.js';
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -45,7 +44,7 @@ export default class SignIn extends Component {
 
     //submits user account info to backend for sign in
     axios
-      .get(config.DOMAIN.name + 'user', user)
+      .post(config.DOMAIN.name + 'user/login', user)
       .then((res) => {
         console.log(res.data);
       })
