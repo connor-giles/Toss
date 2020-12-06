@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/isLoggedIn').get(authController.isLoggedIn);
 /*axios
-  .get(config.DOMAIN.name + 'user/')
+  .get(config.DOMAIN.name + 'user/isLoggedIn')
   .then((response) => setLoginStatus(response.data.isLoggedIn));
 */
 

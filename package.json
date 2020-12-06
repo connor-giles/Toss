@@ -29,10 +29,15 @@
     "bcryptjs": "2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.1",
+    "express-rate-limit": "^5.2.3",
     "find-config": "^1.0.0",
+    "helmet": "^4.2.0",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.1",
     "mongoose": "^5.10.11",
@@ -41,7 +46,8 @@
     "serve": "^11.3.2",
     "should": "^13.2.3",
     "supertest": "^4.0.2",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "xss-clean": "^0.1.1"
   },
   "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme"
 }

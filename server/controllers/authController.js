@@ -13,8 +13,18 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    domain: null,
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
-  res.status(statusCode).json({
+  user.credentials = undefined;
+
+  res.status(statusCode).cookie('jwt', token, cookieOptions).json({
     status: 'success',
     token,
     data: {
@@ -61,12 +71,6 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
   let token;
 
-  if (!req.headers.authorization) {
-    return res.status(201).json({
-      isLoggedIn: 0,
-    });
-  }
-
   //1 Get token and check if it's there
   if (
     req.headers.authorization &&
@@ -74,15 +78,18 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
   ) {
     //splits string into an array in which elements are divided by a space (' ')
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+    console.log('inside cookies');
+  } else {
+    return res.status(201).json({
+      isLoggedIn: 0,
+    });
   }
   //2 Verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  //3 Check if valid token is held
   if (!decoded) {
-    return res.status(201).json({
-      isLoggedIn: 0,
-    });
   } else {
     return res.status(201).json({
       isLoggedIn: 1,
@@ -102,7 +109,10 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     //splits string into an array in which elements are divided by a space (' ')
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
+
   if (!token) {
     return next(
       new AppError('You are not logged in, please log in for access!', 401)
