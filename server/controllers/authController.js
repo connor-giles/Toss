@@ -54,8 +54,40 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  // 3 If esverything is ok, send token to client
+  // 3 If everything is ok, send token to client
   createSendToken(user, 200, res);
+});
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  let token;
+
+  if (!req.headers.authorization) {
+    return res.status(201).json({
+      isLoggedIn: 0,
+    });
+  }
+
+  //1 Get token and check if it's there
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    //splits string into an array in which elements are divided by a space (' ')
+    token = req.headers.authorization.split(' ')[1];
+  }
+  //2 Verify token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  //3 Check if valid token is held
+  if (!decoded) {
+    return res.status(201).json({
+      isLoggedIn: 0,
+    });
+  } else {
+    return res.status(201).json({
+      isLoggedIn: 1,
+    });
+  }
 });
 
 // MIDDLEWARE: Protected routes

@@ -5,7 +5,11 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(userController.listAll);
+router.route('/isLoggedIn').get(authController.isLoggedIn);
+/*axios
+  .get(config.DOMAIN.name + 'user/')
+  .then((response) => setLoginStatus(response.data.isLoggedIn));
+*/
 
 router.post('/register', authController.register);
 
