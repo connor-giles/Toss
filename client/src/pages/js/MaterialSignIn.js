@@ -14,7 +14,6 @@ import GLoginHooks from '../../components/GLoginHook.js';
 import GLogoutHooks from '../../components/GLogoutHook.js';
 import axios from 'axios';
 import config from '../../config/config.js';
-import { showAlert } from '../../utils/alerts';
 import { Redirect } from 'react-router-dom';
 import Nav from '../js/Nav';
 import { useHistory } from 'react-router-dom';

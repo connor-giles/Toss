@@ -88,8 +88,21 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
   }
   //2 Verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  //3 Check if user still exists
+  const freshUser = await User.findById(decoded.id);
+  if (!freshUser)
+    return next(
+      new AppError('The user belonging to this token no longer exists', 401)
+    );
 
-  if (!decoded) {
+  //4 Check if 'user' changed credentials after the token was issued
+  if (freshUser.changedCredentialsAfter(decoded.iat)) {
+    return next(
+      new AppError('User recently changed password! Please log in again.', 401)
+    );
+  }
+
+  if (!freshUser) {
   } else {
     return res.status(201).json({
       isLoggedIn: 1,
