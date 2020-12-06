@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import config from '../../config/config.js';
 
 function Nav() {
+  const [isLoggedIn, setIsLoggedIn] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get(config.DOMAIN.name + 'user/isLoggedIn')
+      .then((response) => {
+          setIsLoggedIn(response.data);
+          console.log(isLoggedIn);
+        })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <nav>
       <div className="nav-tabs">
@@ -15,9 +29,9 @@ function Nav() {
 
         <li> | </li>
 
-        <Link to="/signin" className="nav-links">
+        {/* <Link to="/signin" className="nav-links">
           <li>SIGN IN</li>
-        </Link>
+        </Link> */}
 
         <Link to="/register" className="nav-links">
           <li>REGISTER</li>
@@ -26,6 +40,14 @@ function Nav() {
         <Link to="/quiz" className="nav-links">
           <li>QUIZ</li>
         </Link>
+
+        { isLoggedIn
+        ? <li>SIGN OUT</li>
+        : <Link to="/signin" className="nav-links">
+           <li>SIGN IN</li>
+          </Link> 
+        }
+
 
       </div>
     </nav>

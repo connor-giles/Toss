@@ -40,6 +40,7 @@ export default function SignIn() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [credentials, setCredentials] = useState('');
+  const [test, setTest] = useState('');
   
 
   function onSubmit(event) {
@@ -55,6 +56,8 @@ export default function SignIn() {
       .post(config.DOMAIN.name + 'user/login', user)
       .then((res) => {
         console.log(res.data);
+        setTest(res.data.status);
+        checkStatus(res.data.token);
         //window.location.href = config.DOMAIN.frontendHome; //should send back to home MAY OVERWRTE TOKEN????
         //console.log('login successful')
       })
@@ -138,3 +141,11 @@ export default function SignIn() {
     </Container>
   );
 }
+
+  export const checkStatus = state => {
+    if(state !== null) {
+      console.log("logged in");
+    } else {
+      console.log("not");
+    }
+  }
