@@ -67,11 +67,9 @@ exports.getToss = catchAsync(async (req, res, next) => {
   });
 });
 
-// req body would contain Response 'object_id', which then gets pushed into Toss
+// req body would contain Response 'req.newResponse', which then gets pushed into Toss
 exports.addResponse = catchAsync(async (req, res, next) => {
-  let toss_id = req.param.id;
-
-  await Toss.findByIdAndUpdate(toss_id, {
+  await Toss.findByIdAndUpdate(req.tossToParticipateIn._id, {
     $push: {
       userResponses: {
         responseID: mongoose.Types.ObjectId(req.newResponse._id),

@@ -2,6 +2,7 @@ const { test } = require('mocha');
 const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
 const Response = require('../models/responseModel');
+const AppError = require('../utils/appError.js');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
@@ -65,11 +66,14 @@ const catchAsync = (fn) => {
 exports.create = catchAsync(async (req, res, next) => {
   //
   const info = req.body;
+  info.userID = req.user._id;
+  info.assocToss = mongoose.Types.ObjectId(req.tossToParticipateIn._id);
   //
   if (!info) {
-    return res.status(400).send({
-      error: 'info not found in request',
-    });
+    return new AppError(
+      'Could not create a response from the request data',
+      406
+    );
   }
   const response = await new Response(info).save();
   req.newResponse = response;

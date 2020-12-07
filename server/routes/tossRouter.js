@@ -40,21 +40,21 @@ router
     tossController.getTossed
   );
 
+// router for Toss Phases 1 and 2 (adding and manipulating responses within a Toss)
+router
+  .route('/newResponse')
+  //.get(tossController.getResponse)
+  .patch(
+    authController.protect,
+    tossController.getTossToParticipateIn,
+    responseController.create,
+    tossController.addResponse
+  );
 // router for getting/updating all details of an individual Toss
 router
   .route('/:id')
   .get(tossController.getToss)
   .patch(tossController.updateToss)
   .delete(tossController.removeToss);
-
-// router for Toss Phases 1 and 2 (adding and manipulating responses within a Toss)
-router
-  .route('/:id/newResponse')
-  //.get(tossController.getResponse)
-  .patch(
-    authController.protect,
-    responseController.create,
-    tossController.addResponse
-  );
 
 module.exports = router;
