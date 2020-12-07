@@ -10,6 +10,7 @@ const path = require('path'),
   responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
+  dotenv = require('dotenv');
 
 module.exports.init = () => {
   /* connect to database
