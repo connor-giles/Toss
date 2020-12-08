@@ -44,6 +44,7 @@ exports.getAllTosses = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
+
   const tosses = await features.query;
 
   // Send response
@@ -66,6 +67,28 @@ exports.getToss = catchAsync(async (req, res, next) => {
     data: info,
   });
 });
+
+/*
+exports.updateAll = catchAsync(async (req, res, next) => {
+  let updatedTosses = await Toss.updateMany(
+    {},
+    {
+      $push: {
+        userResponses: {
+          responseID: mongoose.Types.ObjectId(req.newResponseID),
+          userID: mongoose.Types.ObjectId(req.userID),
+          MFTScore: 0,
+        },
+      },
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: updatedTosses,
+  });
+});
+*/
 
 // req body would contain Response 'req.newResponse', which then gets pushed into Toss
 exports.addResponse = catchAsync(async (req, res, next) => {
@@ -130,7 +153,7 @@ exports.removeToss = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTossStats = catchAsync(async (req, res, next) => {
+/*exports.getTossStats = catchAsync(async (req, res, next) => {
   const stats = await Toss.aggregate([
     { $match: { currentPhase: { $eq: 1 } } },
     {
@@ -140,6 +163,7 @@ exports.getTossStats = catchAsync(async (req, res, next) => {
     },
   ]);
 }); // MIDDLEWARE
+*/
 
 /* MIDDLEWARE
 Used to make sure that a user only gets given one Toss a day to respond to. 

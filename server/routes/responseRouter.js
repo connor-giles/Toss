@@ -1,13 +1,15 @@
 const { response } = require('express');
 const express = require('express');
 const responseController = require('../controllers/responseController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+//router.route('/').post(responseController.create);
+
 router
-  .route('/')
-  .get(responseController.listAll)
-  .post(responseController.create);
+  .route('/tossResponses')
+  .get(authController.protect, responseController.getLimitedTossResponses);
 
 router
   .route('/:id')

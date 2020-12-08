@@ -25,6 +25,11 @@ const responseSchema = new mongoose.Schema({
     trim: true,
   },
 
+  numRatingsGiven: {
+    type: Number,
+    default: 0,
+  },
+
   tags: {
     fresh: {
       type: Number,

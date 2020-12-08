@@ -3,6 +3,8 @@ const { Collection } = require('mongoose');
 const { db } = require('../config/config.js');
 const Response = require('../models/responseModel');
 const AppError = require('../utils/appError.js');
+const APIFilters = require('../utils/apiFilters');
+const catchAsync = require('../utils/catchAsync');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
@@ -34,6 +36,31 @@ exports.getResponse = async (req, res) => {
     });
 };
 
+exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
+  req.query.limit = '3';
+  //also maybe try this, if the find query below (line 47) doesn't work
+  //req.query.assocToss = mongoose.Types.ObjectId(req.tossID)
+
+  // Execute query
+  const features = new APIFilters(
+    Response.find({ assocToss: { $eq: mongoose.Types.ObjectId(req.tossID) } }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const responses = await features.query;
+
+  // Send response
+  res.status(200).json({
+    status: 'success',
+    results: responses.length,
+    data: { responses },
+  });
+});
+
 exports.updateResponse = async (req, res) => {
   let id = req.params.id;
   try {
@@ -54,12 +81,6 @@ exports.updateResponse = async (req, res) => {
       message: err,
     });
   }
-};
-
-const catchAsync = (fn) => {
-  return (req, res, next) => {
-    fn(req, res, next).catch(next);
-  };
 };
 
 /* Create a entry in db */

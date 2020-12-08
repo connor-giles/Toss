@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
+const Toss = require('../models/tossModel');
 
 // Retrieve all the docs
 exports.listAll = catchAsync(async (req, res) => {
@@ -14,7 +15,7 @@ exports.listAll = catchAsync(async (req, res) => {
   });
 });
 
-/* Show the current FootballClub */
+/* Show the current user */
 exports.getUser = catchAsync(async (req, res) => {
   let userID = req.params.id;
   const user = await User.findById(userID);
@@ -67,7 +68,7 @@ exports.create = async (req, res) => {
     });
 };
 
-/* Delete a FootballClub */
+/* Delete a user */
 exports.removeUser = async (req, res) => {
   let id = req.params.testId;
 
@@ -82,3 +83,23 @@ exports.removeUser = async (req, res) => {
     });
   });
 };
+
+// Sorts Users (documents) within this Toss (assumed to be present in req as 'tossID'), into three groupings, based on their MFT scores
+exports.phase2Aggregate = catchAsync(async (req, res, next) => {
+  let toss = await Toss.aggregate([
+    {
+      $match: { currentPhase: { $eq: 1 } },
+      $group: {
+        _id: null,
+        std: { $stdDevSamp: '$userResponses' },
+      },
+    },
+  ]);
+  if (!toss) {
+    return new AppError('No toss found with that id', 400);
+  }
+  return res.status(200).json({
+    status: 'success',
+    data: toss,
+  });
+});

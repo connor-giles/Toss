@@ -50,7 +50,7 @@ export default function CardTwo() {
           {phaseTwo.map((toss) => {
             if (toss.category.science) {
               return (
-                <div className="science">
+                <div className="science" onClick={console.log(3)}>
                   <Typography className={classes.tossTitle}>
                     Science and Technology
                   </Typography>
