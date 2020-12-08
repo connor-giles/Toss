@@ -13,6 +13,7 @@ import Register from './pages/js/Register';
 import Quiz from './pages/js/Quiz';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Responses from './pages/js/Responses';
+import LoggedIn from './pages/js/loggedIn';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/register" component={MaterialRegister} />
           <Route path="/responses" component={Responses} />
           <Route path="/quiz" component={Quiz} />
+          <Route path="/loggedIn" component={LoggedIn} />
         </Switch>
       </div>
     </Router>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,10 @@ import Container from '@material-ui/core/Container';
 import GLoginHooks from '../../components/GLoginHook.js';
 import GLogoutHooks from '../../components/GLogoutHook.js';
 import axios from 'axios';
-import config from "../../config/config.js"
+import config from '../../config/config.js';
+import { Redirect } from 'react-router-dom';
+import Nav from '../js/Nav';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,7 +43,9 @@ export default function SignIn() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [credentials, setCredentials] = useState('');
-  
+  const [redirect, setRedirect] = useState(false);
+
+  const history = useHistory();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -49,31 +54,35 @@ export default function SignIn() {
       userName: userName,
       credentials: credentials,
       email: email,
-    }
+    };
 
     axios
-      .post(config.DOMAIN.name + 'user/login', user)
+      .post(config.DOMAIN.name + 'user/login', user, {
+        withCredentials: true,
+        credentials: 'include',
+      })
       .then((res) => {
         console.log(res.data);
+        checkStatus(res.data.token);
         //window.location.href = config.DOMAIN.frontendHome; //should send back to home MAY OVERWRTE TOKEN????
         //console.log('login successful')
       })
       .catch((error) => {
         console.log(error);
-        //console.log('login failed')
-    });
+        console.log('login failed');
+      });
 
     setUserName('');
     setEmail('');
     setCredentials('');
 
+    history.replace('/loggedIn');
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -82,7 +91,7 @@ export default function SignIn() {
           Sign In to T.O.S.S
         </Typography>
 
-        <form className={classes.form} noValidate onSubmit={onSubmit}> 
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -93,7 +102,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
 
           <TextField
@@ -106,19 +115,19 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={event => setCredentials(event.target.value)}
+            onChange={(event) => setCredentials(event.target.value)}
           />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-
+          <div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+          </div>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -133,8 +142,15 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-      </Box>
+      <Box mt={8}></Box>
     </Container>
   );
 }
+
+export const checkStatus = (state) => {
+  if (state !== null) {
+    console.log('logged in');
+  } else {
+    console.log('not');
+  }
+};

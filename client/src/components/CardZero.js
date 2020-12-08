@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -9,8 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import config from "../config/config.js"
-
+import config from '../config/config.js';
 
 export default function CardZero() {
   const classes = useStyles();
@@ -24,55 +23,61 @@ export default function CardZero() {
 
   //gets 4 categories for phase 0
   useEffect(() => {
-    axios.get(config.DOMAIN.name + 'toss/3Phase0Tosses')
-    .then((response) => setPhaseZero(response.data.data.tosses))
-    .catch((error) => console.error(error))
+    axios
+      .get(config.DOMAIN.name + 'toss/3Phase0Tosses')
+      .then((response) => setPhaseZero(response.data.data.tosses))
+      .catch((error) => console.error(error));
   }, []);
-
 
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5" component="h2">
-         Phase Zero
+          Phase Zero
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           Prompts
         </Typography>
-        <div className="tosses">       
-          {phaseZero.map(toss => {
-            if(toss.category.science) {
+        <div className="tosses">
+          {phaseZero.map((toss) => {
+            if (toss.category.science) {
               return (
-                <div className="science"> 
-                  <Typography className={classes.tossTitle}>Science and Technology</Typography>
+                <div className="science">
+                  <Typography className={classes.tossTitle}>
+                    Science and Technology
+                  </Typography>
                   {toss.prompt}
-                  <p>{"\n"}</p>
-              </div>
-              )
+                  <p>{'\n'}</p>
+                </div>
+              );
             } else if (toss.category.politics) {
               return (
-                <div className="politics"> 
-                  <Typography className={classes.tossTitle}>Politics</Typography>
+                <div className="politics">
+                  <Typography className={classes.tossTitle}>
+                    Politics
+                  </Typography>
                   {toss.prompt}
-                  <p>{"\n"}</p>
-              </div>
-              )
+                  <p>{'\n'}</p>
+                </div>
+              );
             } else if (toss.category.environment) {
               return (
-                <div className="environment"> 
-                   <Typography className={classes.tossTitle}>Environment</Typography>
+                <div className="environment">
+                  <Typography className={classes.tossTitle}>
+                    Environment
+                  </Typography>
                   {toss.prompt}
-                  <p>{"\n"}</p>
-              </div>
-              )
+                  <p>{'\n'}</p>
+                </div>
+              );
             } else if (toss.category.society) {
               return (
-                <div className="society"> 
-                   <Typography className={classes.tossTitle}>Society</Typography>
+                <div className="society">
+                  <Typography className={classes.tossTitle}>Society</Typography>
                   {toss.prompt}
-                  <p>{"\n"}</p>
-              </div>
-              )
+                  <p>{'\n'}</p>
+                </div>
+              );
             }
           })}
         </div>
@@ -81,7 +86,7 @@ export default function CardZero() {
       <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded
+            [classes.expandOpen]: expanded,
           })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
@@ -97,13 +102,9 @@ export default function CardZero() {
           </Typography>
         </CardContent>
       </Collapse>
-     
-
-
     </Card>
   );
 }
-
 
 const useStyles = makeStyles({
   root: {
@@ -120,7 +121,7 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-  tossTitle : {
+  tossTitle: {
     fontWeight: 'bold',
-  }
+  },
 });

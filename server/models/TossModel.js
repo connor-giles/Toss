@@ -75,10 +75,23 @@ const tossSchema = new mongoose.Schema({
   // Stored by objectIDs (var: _id)
   userResponses: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Response',
+      responseID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Response',
+      },
+      userID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
     },
   ],
+});
+
+tossSchema.pre('aggregate', function (next) {
+  if (this.userResponses === undefined) {
+    this.userResponses = [];
+  }
+  next();
 });
 
 module.exports = mongoose.model('Toss', tossSchema);

@@ -2,6 +2,7 @@ const { test } = require('mocha');
 const { Collection } = require('mongoose');
 //const { db } = require('../config/config.js');
 const Response = require('../models/responseModel');
+const AppError = require('../utils/appError.js');
 
 // Retrieve all the docs
 exports.listAll = async (req, res) => {
@@ -62,18 +63,21 @@ const catchAsync = (fn) => {
 };
 
 /* Create a entry in db */
-exports.create = catchAsync(async (req, res) => {
+exports.create = catchAsync(async (req, res, next) => {
   //
   const info = req.body;
+  info.userID = req.user._id;
+  info.assocToss = mongoose.Types.ObjectId(req.tossToParticipateIn._id);
   //
   if (!info) {
-    return res.status(400).send({
-      error: 'info not found in request',
-    });
+    return new AppError(
+      'Could not create a response from the request data',
+      406
+    );
   }
-  await new Response(info).save().then((data) => {
-    res.json(data);
-  });
+  const response = await new Response(info).save();
+  req.newResponse = response;
+  next();
 });
 
 /* Delete a FootballClub */

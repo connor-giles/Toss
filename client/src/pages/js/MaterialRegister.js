@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import config from "../../config/config.js"
+import config from '../../config/config.js';
+import { useHistory } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,6 +43,7 @@ export default function SignUp() {
   const [credentials, setCredentials] = useState('');
   const [credentialsConfirm, setCredentialsConfirm] = useState('');
 
+  const history = useHistory();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -49,31 +53,34 @@ export default function SignUp() {
     const user = {
       username: userName,
       credentials: credentials,
-      credentialsConfirm: credentialsConfirm, 
+      credentialsConfirm: credentialsConfirm,
       email: email,
-    }
+    };
 
     axios
-    .post(config.DOMAIN.name + 'user/register', user)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
+      .post(config.DOMAIN.name + 'user/register', user, {
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
 
     setUserName('');
     setEmail('');
     setCredentials('');
     setCredentialsConfirm('');
 
+    history.replace('/quiz');
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -84,8 +91,7 @@ export default function SignUp() {
 
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
-
-          <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -94,7 +100,7 @@ export default function SignUp() {
                 label="Username"
                 name="username"
                 autoComplete="username"
-                onChange={event => setUserName(event.target.value)}
+                onChange={(event) => setUserName(event.target.value)}
               />
             </Grid>
 
@@ -107,7 +113,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={event => setEmail(event.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </Grid>
 
@@ -121,7 +127,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={event => setCredentials(event.target.value)}
+                onChange={(event) => setCredentials(event.target.value)}
               />
             </Grid>
 
@@ -135,10 +141,9 @@ export default function SignUp() {
                 type="password"
                 id="confirm"
                 autoComplete="current-confirm"
-                onChange={event => setCredentialsConfirm(event.target.value)}
+                onChange={(event) => setCredentialsConfirm(event.target.value)}
               />
             </Grid>
-
           </Grid>
           <Button
             type="submit"
@@ -158,8 +163,7 @@ export default function SignUp() {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-      </Box>
+      <Box mt={5}></Box>
     </Container>
   );
 }

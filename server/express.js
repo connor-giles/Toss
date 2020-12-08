@@ -6,7 +6,13 @@ const path = require('path'),
   bodyParser = require('body-parser'),
   AppError = require('./utils/appError'),
   globalErrorHandler = require('./controllers/errorController'),
-  testRouter = require('./routes/testRouter'),
+  xss = require('xss-clean'),
+  rateLimit = require('express-rate-limit'),
+  helmet = require('helmet'),
+  cookieParser = require('cookie-parser'),
+  mongoSanitize = require('express-mongo-sanitize');
+
+const testRouter = require('./routes/testRouter'),
   responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
@@ -30,16 +36,40 @@ module.exports.init = () => {
   // initialize app
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+      origin: 'http://localhost:3000',
+    })
+  );
+
+  // https headers
+  app.use(helmet());
 
   // enable request logging for development debugging
   app.use(morgan('dev'));
 
+  // Limit requests from same API
+  const limiter = rateLimit({
+    max: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP, please try again in an hour!',
+  });
+  app.use('/', limiter);
+
   // body parsing middleware
   app.use(bodyParser.json());
+  app.use(cookieParser());
 
+  // Data sanitization against NoSQL query injection
+  app.use(mongoSanitize());
+
+  // Data sanitization against XSS
+  app.use(xss());
+
+  // TEST
   app.use((req, res, next) => {
-    //console.log(req.headers);
+    //console.log(req.cookies);
     next();
   });
 

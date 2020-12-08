@@ -2,6 +2,7 @@ const { response } = require('express');
 const express = require('express');
 const tossController = require('../controllers/tossController');
 const authController = require('../controllers/authController');
+const responseController = require('../controllers/responseController');
 
 const router = express.Router();
 
@@ -30,25 +31,30 @@ router
   .route('/3Phase2Tosses')
   .get(tossController.aliasPhase2Tosses, tossController.getAllTosses);
 
+router
+  .route('/getTossed')
+  .get(
+    authController.protect,
+    tossController.getTossToParticipateIn,
+    tossController.limitToOneToss,
+    tossController.getTossed
+  );
+
+// router for Toss Phases 1 and 2 (adding and manipulating responses within a Toss)
+router
+  .route('/newResponse')
+  //.get(tossController.getResponse)
+  .patch(
+    authController.protect,
+    tossController.getTossToParticipateIn,
+    responseController.create,
+    tossController.addResponse
+  );
 // router for getting/updating all details of an individual Toss
 router
   .route('/:id')
   .get(tossController.getToss)
   .patch(tossController.updateToss)
   .delete(tossController.removeToss);
-
-// router for Toss Phases 1 and 2 (adding and manipulating responses within a Toss)
-router
-  .route('/:id/newResponse')
-  //.get(tossController.getResponse)
-  .patch(authController.protect, tossController.addResponse);
-
-router
-  .route('/getTossed')
-  .patch(
-    authController.protect,
-    tossController.limitToOneToss,
-    tossController.getTossed
-  );
 
 module.exports = router;
