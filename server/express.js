@@ -12,8 +12,7 @@ const path = require('path'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
 
-const testRouter = require('./routes/testRouter'),
-  responseRouter = require('./routes/responseRouter'),
+const responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
   dotenv = require('dotenv');
@@ -74,22 +73,11 @@ module.exports.init = () => {
   });
 
   // add a router
-  app.use('/api/test', testRouter);
   app.use('/response', responseRouter);
   app.use('/toss', tossRouter);
   app.use('/user', userRouter);
 
   app.use(globalErrorHandler);
-
-  // if (process.env.NODE_ENV === 'production') {
-  //   // Serve any static files
-  //   app.use(express.static(path.join(__dirname, '../../client/build')));
-
-  //   // Handle React routing, return all requests to React app
-  //   app.get('*', function (req, res) {
-  //     res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
-  //   });
-  // }
 
   app.use('/', express.static('client/build'));
   app.use(express.static('client/build'));
