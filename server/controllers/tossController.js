@@ -1,4 +1,4 @@
-const Toss = require('../models/tossModel');
+const Toss = require('../models/TossModel');
 const Response = require('../models/responseModel');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');

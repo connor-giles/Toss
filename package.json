@@ -12,7 +12,7 @@
     "build": "cd client && npm build",
     "start": "node server/server.js",
     "debug": "ndb server/server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && rm -rf node_modules && npm install && npm run build"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,0 @@
-web: concurrently \'nodemon server/server.js\' \'cd client && npm run start\'
