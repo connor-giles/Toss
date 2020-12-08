@@ -8,7 +8,6 @@ import CardTwo from '../../components/CardTwo';
 import { Grid } from '@material-ui/core';
 
 function Home() {
-  
   return (
     <div className="homePage">
       <div className="landing">
@@ -16,7 +15,7 @@ function Home() {
         <p className="description">
           That One Study Shows...
           <br></br>
-          Making the world more educated, one study at a time{' '}
+          Making the world more educated, one toss at a time{' '}
         </p>
       </div>
 

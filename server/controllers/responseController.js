@@ -39,13 +39,11 @@ exports.getResponse = async (req, res) => {
 exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
   req.query.limit = '3';
   //also maybe try this, if the find query below (line 47) doesn't work
-  //req.query.assocToss = mongoose.Types.ObjectId(req.tossID)
+
+  req.query.userID = req.userID;
 
   // Execute query
-  const features = new APIFilters(
-    Response.find({ assocToss: { $eq: mongoose.Types.ObjectId(req.tossID) } }),
-    req.query
-  )
+  const features = new APIFilters(Response.find(), req.query)
     .filter()
     .sort()
     .limitFields()

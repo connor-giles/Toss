@@ -213,9 +213,11 @@ exports.limitToOneToss = catchAsync(async (req, res, next) => {
   console.log(checkIfTossed);
 
   if (checkIfTossed)
-    return next(
-      new AppError('User has already responded to a Toss today', 409)
-    );
+    res.status(201).json({
+      status: 'success',
+      message: 'User has participated in a toss already, here is that toss',
+      data: req.tossToParticipateIn,
+    });
 
   req.todaysTosses = todaysTosses;
   next();
