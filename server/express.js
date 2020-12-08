@@ -65,11 +65,11 @@ module.exports.init = () => {
   //   });
   // }
 
-  app.use('/', express.static('../client/build'));
-  app.use(express.static('../client/build'));
+  app.use('/', express.static('client/build'));
+  app.use(express.static('client/build'));
   app.all('/*', (req, res) => {
     // res.status(201).json({message: "nothing here!"});
-    res.sendFile(path.resolve("../client/build/index.html"));
+    res.sendFile(path.resolve("client/build/index.html"));
   });
 
   return app;
