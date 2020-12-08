@@ -38,7 +38,9 @@ const Nav = () => {
         <Link to="/" className="nav-links" onClick={handleLogin}>
           <li>HOME</li>
         </Link>
-        <li>ABOUT </li>
+        <Link to="/about" className="nav-links" onClick={handleLogin}>
+          <li>ABOUT</li>
+        </Link>
         <Link to="/profile" className="nav-links" onClick={handleLogin}>
           <li>PROFILE</li>
         </Link>

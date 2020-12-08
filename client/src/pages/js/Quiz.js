@@ -108,7 +108,7 @@ export default class Register extends Component {
       //quiz headers
       <div className="quizwrapper">
         <div className="quizbox">
-          <h1 className="quiztitle">Moral Foundations Test</h1>
+          <p className="quiztitle">Moral Foundations Test</p>
           <form onSubmit={this.onSubmit}>
             <div>{final}</div>
 
