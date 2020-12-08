@@ -1,6 +1,6 @@
 const { test } = require('mocha');
 const { Collection } = require('mongoose');
-const { db } = require('../config/config.js');
+//const { db } = require('../config/config.js');
 const testModel = require('../models/testModel.js');
 
 exports.hello = function (req, res) {
