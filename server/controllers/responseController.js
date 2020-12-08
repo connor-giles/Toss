@@ -36,14 +36,16 @@ exports.getResponse = async (req, res) => {
     });
 };
 
+// Gets all the responses for a Toss whose ObjectId is sent in the request as 'tossID'
 exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
+  // change this depending on how many responses you want. Remove it if you'd like all responses for this toss
   req.query.limit = '3';
-  //also maybe try this, if the find query below (line 47) doesn't work
-
-  req.query.userID = req.userID;
 
   // Execute query
-  const features = new APIFilters(Response.find(), req.query)
+  const features = new APIFilters(
+    Response.find({ assocToss: mongoose.Types.ObjectId(req.body.tossID) }),
+    req.query
+  )
     .filter()
     .sort()
     .limitFields()
@@ -51,7 +53,6 @@ exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
 
   const responses = await features.query;
 
-  // Send response
   res.status(200).json({
     status: 'success',
     results: responses.length,

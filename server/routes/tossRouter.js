@@ -33,6 +33,7 @@ router
   .route('/3Phase2Tosses')
   .get(tossController.aliasPhase2Tosses, tossController.getAllTosses);
 
+//
 router
   .route('/getTossed')
   .get(
@@ -49,6 +50,7 @@ router
   .patch(
     authController.protect,
     tossController.getTossToParticipateIn,
+    tossController.limitToOneToss,
     responseController.create,
     tossController.addResponse
   );
