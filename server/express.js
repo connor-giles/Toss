@@ -12,8 +12,7 @@ const path = require('path'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
 
-const testRouter = require('./routes/testRouter'),
-  responseRouter = require('./routes/responseRouter'),
+const responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
   dotenv = require('dotenv');
@@ -50,12 +49,12 @@ module.exports.init = () => {
   app.use(morgan('dev'));
 
   // Limit requests from same API
-  const limiter = rateLimit({
-    max: 100,
-    windowMs: 60 * 60 * 1000,
-    message: 'Too many requests from this IP, please try again in an hour!',
-  });
-  app.use('/', limiter);
+  // const limiter = rateLimit({
+  //   max: 100,
+  //   windowMs: 60 * 60 * 1000,
+  //   message: 'Too many requests from this IP, please try again in an hour!',
+  // });
+  // app.use('/', limiter);
 
   // body parsing middleware
   app.use(bodyParser.json());
@@ -74,7 +73,6 @@ module.exports.init = () => {
   });
 
   // add a router
-  app.use('/api/test', testRouter);
   app.use('/response', responseRouter);
   app.use('/toss', tossRouter);
   app.use('/user', userRouter);
