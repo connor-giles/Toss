@@ -5,9 +5,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #8e9eab;
+    /* background: #8e9eab;
     background: -webkit-linear-gradient(to left, #eef2f3, #8e9eab);
-    background: linear-gradient(to left, #eef2f3, #8e9eab);
+    background: linear-gradient(to left, #eef2f3, #8e9eab); */
+    background: #404374;
   }
 
   .wrapper {
@@ -15,10 +16,9 @@
     height: 600px;
     display: flex;
     flex-direction: column;
-    padding: 20px 40px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgb(182, 182, 182);
-    background: white;
+    /* box-shadow: 0px 0px 10px rgb(182, 182, 182); */
+    background: #FC8368;
     
   }
 
@@ -27,8 +27,9 @@
     flex-direction: column;
     padding-bottom: 10px;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 16px;
     padding: 10px;
+    letter-spacing: 3px;
   }
 
   .comment-input {
@@ -41,6 +42,8 @@
         Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     resize: none;
+    border-radius: 10px;
+
   }
 
   .user-input {
@@ -60,14 +63,30 @@
     outline: none;
     border: 1px solid #e1e1e1;
     font-size: 16px;
+    border-radius: 10px;
   }
 
   .button {
     width: 200px;
     height: 40px;
     letter-spacing: 1px;
-    border-radius: 10px;
-    border: #e1e1e1;
+    border-radius: 50px;
+    border: #7C84FF;
+    background-color: #7C84FF;
+    color: white;
     margin-top: 30px;
   }
   
+  .prompt-wrapper {
+    font-size: 18px;
+  }
+
+  .prompt {
+    font-size: 22px;
+    margin: 0px;
+    padding-bottom: 16px;
+  }
+
+  .count {
+    font-size: 12px;
+  }
