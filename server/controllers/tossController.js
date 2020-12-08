@@ -216,7 +216,7 @@ exports.limitToOneToss = catchAsync(async (req, res, next) => {
     res.status(201).json({
       status: 'success',
       message: 'User has participated in a toss already, here is that toss',
-      data: req.tossToParticipateIn,
+      data: checkIfTossed,
     });
 
   req.todaysTosses = todaysTosses;
