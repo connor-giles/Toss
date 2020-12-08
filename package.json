@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "engines": {
-    "node": "13.6.0",
-    "npm": "6.13.7"
-  },
   "scripts": {
     "test": "mocha server/tests",
     "install-all": "concurrently \"npm install\" \"cd client && npm install\"",
@@ -16,7 +12,7 @@
     "build": "cd client && npm build",
     "start": "node server/server.js",
     "debug": "ndb server/server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && rm -rf node_modules && npm install && npm run build"
   },
   "repository": {
     "type": "git",
