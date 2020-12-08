@@ -48,10 +48,10 @@ module.exports.init = () => {
   app.use('/response', responseRouter);
   app.use('/toss', tossRouter);
   app.use('/user', userRouter);
-  app.all('*', (req, res, next) => {
-    //whenever something is passed into next, that data passed in is innately expected to be an error
-    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-  });
+  // app.all('*', (req, res, next) => {
+  //   //whenever something is passed into next, that data passed in is innately expected to be an error
+  //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  // });
 
   app.use(globalErrorHandler);
 
