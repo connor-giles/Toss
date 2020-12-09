@@ -16,6 +16,7 @@ router.route('/isLoggedIn').get(authController.isLoggedIn);
 router.post('/register', authController.register);
 
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 router.patch(
   '/updateMyPassword',
