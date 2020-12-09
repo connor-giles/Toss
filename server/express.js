@@ -40,7 +40,7 @@ module.exports.init = () => {
   app.use(
     cors({
       credentials: true,
-      origin: require('./config/config').DOMAIN.name
+      origin: require('./config/domain').DOMAIN.name
     })
   );
 
