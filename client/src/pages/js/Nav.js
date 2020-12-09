@@ -46,6 +46,7 @@ const Nav = () => {
       .catch((error) => console.error(error));
   }, []);
 
+  
   return (
     <nav>
       <div className="nav-tabs">
