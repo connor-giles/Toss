@@ -12,7 +12,6 @@ const path = require('path'),
   helmet = require('helmet'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
-  //config = require('./config/config');
 
 const responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
@@ -23,7 +22,7 @@ module.exports.init = () => {
   /* connect to database
         - reference README for db uri
   */
-  //console.log(process.env.DATABASE_URI)
+  //console.log(process.env.DB_URI)
   mongoose
     .connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
       useNewUrlParser: true,
