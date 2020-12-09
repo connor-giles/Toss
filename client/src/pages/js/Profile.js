@@ -25,7 +25,10 @@ let username,
   fairness,
   ingroupLoyalty,
   authorityRespect,
-  puritySanctity;
+  puritySanctity,
+  prevTosses,
+  userID;
+const tossArr = [];
 //problems with this code
 //#1, user data is not imported correctly from nav.
 //either that or I can't log in to the app correctly for whatever reason
@@ -73,9 +76,12 @@ const Profile = () => {
   const [email, setEmail] = useState([]);
   const [MFT, setMFT] = useState([]);
   const [username, setUsername] = useState([]);
-
+  const [userID, setID] = useState([]);
   //for image upload
   const [image, setImage] = useState({ preview: '', raw: '' });
+
+  const [prevTosses, setTosses] = useState([]); //get object of previous responses
+
 
   const handleChange = (e) => {
     if (e.target.files.length) {
@@ -99,6 +105,8 @@ const Profile = () => {
         setEmail(response.data.data.email);
         setUsername(response.data.data.username);
         setMFT(response.data.data.MFT);
+        setID(response.data.data._id);
+        
       })
       .catch((error) => console.error(error));
   }, []);
@@ -152,7 +160,70 @@ const Profile = () => {
     createData('Respect for Authority', MFT.authorityRespect),
     createData('Purity/Sanctity', MFT.puritySanctity),
   ];
-
+  if(prevTosses.length == 0){
+    tossArr.length = 0;
+    tossArr.push(<div><Divider variant="inset" component="li" />
+    <ListItem alignItems="center">
+      <ListItemText
+        primary={
+          <React.Fragment>
+            <Typography
+              component="span"
+              variant="body2"
+              className={classes.inline}
+              color="textPrimary"
+            ></Typography>
+            {"No Tosses"}
+          </React.Fragment>
+        }
+        secondary={
+          <React.Fragment>
+            <Typography
+              component="span"
+              variant="body2"
+              className={classes.inline}
+              color="textPrimary"
+            ></Typography>
+            {"No previous Tosses. Please participate in a TOSS."}
+          </React.Fragment>
+        }
+      />
+    </ListItem></div>);
+  }
+  else{
+    tossArr.length = 0;
+    for(let i = 0; i < 5; i++){
+      tossArr.push(<div><Divider variant="inset" component="li" />
+      <ListItem alignItems="center">
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography
+                component="span"
+                variant="body2"
+                className={classes.inline} 
+                color="textPrimary"
+              ></Typography>
+              {/*  this next line contains the comment from the toss at the index*/}
+              {prevTosses[i].comment}  
+            </React.Fragment>
+          }
+          secondary={
+            <React.Fragment>
+              <Typography
+                component="span"
+                variant="body2"
+                className={classes.inline}
+                color="textPrimary"
+              ></Typography>
+              {/*  this next line contains the source from the toss at the index*/}
+              {"Source: " + prevTosses[i].source}
+            </React.Fragment>
+          }
+        />
+      </ListItem></div>);
+    }
+  }
   return (
     <div className="profile">
       <div className="profile-landing">
@@ -249,56 +320,7 @@ const Profile = () => {
             </Typography>
             <div className="toss-data">
               <List className={classes.root}>
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
+                <div>{tossArr}</div>
               </List>
             </div>
           </TableContainer>
