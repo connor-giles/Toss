@@ -23,6 +23,8 @@ router.patch(
   authController.updateCredentials
 );
 
+router.get('/user', authController.protect, userController.getUser);
+
 /*router
   .route('/:id')
   .get(authController.protect, userController.getUser)

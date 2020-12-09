@@ -8,13 +8,13 @@ const Nav = () => {
 
   let handleLogin = () => {
     axios
-      .get(config.DOMAIN.name + 'user/isLoggedIn', {
+      .get(config.DOMAIN.name + 'user/user', {
         withCredentials: true,
         credentials: 'include',
       })
       .then((response) => {
         setIsLoggedIn(response.data.isLoggedIn);
-        //data = response.data.data;
+        data = response.data.user;
         console.log(response.data.isLoggedIn);
       })
       .catch((error) => console.error(error));
