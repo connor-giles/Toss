@@ -3,6 +3,7 @@ import '../css/Phase1.css';
 import axios from 'axios';
 import config from '../../../config/config.js';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 export default class SubmitResponse extends Component {
   constructor(props) {
@@ -112,6 +113,13 @@ export default class SubmitResponse extends Component {
             <input className="button" type="submit" value="Submit" />
           </div>
         </form>
+
+        <Link to="/phase2">
+          <button className="tossButton">
+            <p className="tossButton-text">Phase2</p>
+          </button>
+        </Link>
+
       </div>
     );
   }
