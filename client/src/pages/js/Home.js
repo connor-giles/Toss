@@ -52,8 +52,8 @@ function Home() {
         </Link>
 
         <br></br>
-        <h1>Time until 5pm EST</h1>
-        <h2>{ctime}</h2>
+        <h1 className="timeText">Time until 5pm EST</h1>
+        <h2 className="timeText">{ctime}</h2>
       </div>
 
       <Grid container>
