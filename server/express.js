@@ -21,7 +21,7 @@ module.exports.init = () => {
   /* connect to database
         - reference README for db uri
   */
-  console.log(process.env.DATABASE_URI)
+  //console.log(process.env.DATABASE_URI)
   mongoose
     .connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
       useNewUrlParser: true,
@@ -48,7 +48,9 @@ module.exports.init = () => {
   // enable request logging for development debugging
   app.use(morgan('dev'));
 
-  // // Limit requests from same API
+
+  // Limit requests from same API
+
   // const limiter = rateLimit({
   //   max: 100,
   //   windowMs: 60 * 60 * 1000,
