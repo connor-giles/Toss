@@ -17,6 +17,14 @@ router
   );
 
 router
+  .route('/userResponses')
+  .get(
+    authController.protect,
+    responseController.limitToThree,
+    responseController.getUserResponses
+  );
+
+router
   .route('/:id')
   .get(responseController.getResponse)
   .patch(responseController.updateResponse)

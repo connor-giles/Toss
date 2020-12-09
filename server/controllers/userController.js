@@ -31,12 +31,41 @@ exports.getUser = catchAsync(async (req, res) => {
   }
 });
 
-exports.updateUser = catchAsync(async (req, res) => {
+exports.updateUser = catchAsync(async (req, res, next) => {
   let id = req.params.id;
-  const user = await User.findByIdAndUpdate(id, req.body, {
+  const user = await User.findOneAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
   });
+  if (!user) {
+    return next(new AppError('Username:' + id + ' not found.', 404));
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: user,
+    });
+  }
+});
+
+// Updates quiz for a user.
+exports.updateQuiz = catchAsync(async (req, res, next) => {
+  let totalScore =
+    req.body.care +
+    req.body.puritySanctity +
+    req.body.authorityRespect +
+    req.body.ingroupLoyalty +
+    req.body.fairness;
+  const user = await User.findById({ _id: req.user._id }).update({
+    $set: {
+      'MFT.care': req.body.care,
+      'MFT.fairness': req.body.fairness,
+      'MFT.ingroupLoyalty': req.body.ingroupLoyalty,
+      'MFT.authorityRespect': req.body.authorityRespect,
+      'MFT.puritySanctity': req.body.puritySanctity,
+      'MFT.totalScore': totalScore,
+    },
+  });
+
   if (!user) {
     return next(new AppError('Username:' + id + ' not found.', 404));
   } else {
@@ -116,5 +145,4 @@ exports.removeUser = async (req, res) => {
 //   return res.status(200).json({
 //     status: 'success',
 //     data: user,
-//   });
-// });
+// }

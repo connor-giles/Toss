@@ -16,6 +16,7 @@ router.route('/isLoggedIn').get(authController.isLoggedIn);
 router.post('/register', authController.register);
 
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 router.patch(
   '/updateMyPassword',
@@ -24,6 +25,7 @@ router.patch(
 );
 
 router.get('/user', authController.protect, userController.getUser);
+router.patch('/quiz', authController.protect, userController.updateQuiz);
 
 /*router
   .route('/:id')

@@ -58,6 +58,29 @@ exports.aggregateTossResponses = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.getUserResponses = catchAsync(async (req, res, next) => {
+  // Execute query
+  const features = new APIFilters(
+    Response.find({ userID: mongoose.Types.ObjectId(req.user._id) }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const responses = await features.query;
+
+  req.responses = responses;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      responses,
+    },
+  });
+});
+
 // Gets all the responses for a Toss whose ObjectId is sent in the request as 'tossID'
 exports.getTossResponses = catchAsync(async (req, res, next) => {
   // Execute query
