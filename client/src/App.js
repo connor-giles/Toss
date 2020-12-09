@@ -5,6 +5,7 @@ import Home from './pages/js/Home';
 import Profile from './pages/js/Profile';
 import Settings from './pages/js/Settings';
 import SignIn2 from './pages/js/SignIn2';
+import PreviewResponse from './pages/js/PreviewResponse';
 import About from './pages/js/About';
 import MaterialSignIn from './pages/js/MaterialSignIn.js';
 import MaterialRegister from './pages/js/MaterialRegister.js';
@@ -32,6 +33,7 @@ function App() {
           <Route path="/quiz" component={Quiz} />
           <Route path="/loggedIn" component={LoggedIn} />
           <Route path="/about" component={About} />
+          <Route path="/previewResponse" component={PreviewResponse} />
         </Switch>
       </div>
     </Router>

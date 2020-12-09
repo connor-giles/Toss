@@ -74,6 +74,7 @@ export default class SubmitResponse extends Component {
         <form className="wrapper" onSubmit={this.onSubmit}>
           <div className="form-group">
             <div className="prompt-wrapper">
+              <p className="phaseTitle">PHASE 1</p>
               <p className="prompt">{this.state.prompt}</p>
             </div>
            

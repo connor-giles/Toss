@@ -30,12 +30,12 @@ export default function CardTwo() {
   }, []);
 
   //gets all responses from the database
-  useEffect(() => {
-    axios
-      .get(config.DOMAIN.name + 'response')
-      .then((response) => setData(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(config.DOMAIN.name + 'response')
+  //     .then((response) => setData(response.data))
+  //     .catch((error) => console.error(error));
+  // }, []);
 
   return (
     <Card className={classes.root}>
@@ -91,7 +91,7 @@ export default function CardTwo() {
         </div>
       </CardContent>
 
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -102,8 +102,8 @@ export default function CardTwo() {
         >
           <Button size="small">View Responses</Button>
         </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      </CardActions> */}
+      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
             {data.map((userRes) => (
@@ -117,7 +117,7 @@ export default function CardTwo() {
             ))}
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   );
 }

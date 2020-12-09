@@ -22,6 +22,10 @@ function Home() {
         <Link to="/response">
           <button className="tossButton"><p className="tossButton-text">Get Toss'd</p></button>
         </Link>
+
+        <Link to="/previewResponse">
+          <button className="tossButton"><p className="tossButton-text">Preview</p></button>
+        </Link>
         
       </div>
 

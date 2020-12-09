@@ -15,18 +15,39 @@ export default function CardOne() {
   const classes = useStyles();
   const [phaseOne, setPhaseOne] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
+  const [preview, setPreview] = useState([]);
+  const [tossId, setTossId] = useState("");
 
   //gets 4 tosses categories in phase 1
   useEffect(() => {
     axios
       .get(config.DOMAIN.name + 'toss/3Phase1Tosses')
-      .then((response) => setPhaseOne(response.data.data.tosses))
+      .then((response) => {
+          setPhaseOne(response.data.data.tosses);
+          console.log(response.data.data.tosses);
+        }
+      )
       .catch((error) => console.error(error));
   }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  
+  const testClick = () => {
+    console.log(tossId);
+    // axios
+    // .get(config.DOMAIN.name + 'response/tossResponses', tossId, {
+    //     withCredentials: true,
+    //     credentials: 'include',
+    //   })
+    // .then((response) => {
+    //     setPreview(response.data.data.responses);
+    //     console.log(response.data.data.responses);
+    // })
+    // .catch((error) => console.error(error));
+
+  }
 
   return (
     <Card className={classes.root}>
@@ -41,7 +62,11 @@ export default function CardOne() {
           {phaseOne.map((toss) => {
             if (toss.category.science) {
               return (
-                <div className="science">
+                <div className="science" 
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Science and Technology
                   </Typography>
@@ -51,7 +76,11 @@ export default function CardOne() {
               );
             } else if (toss.category.politics) {
               return (
-                <div className="politics">
+                <div className="politics"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Politics
                   </Typography>
@@ -61,7 +90,11 @@ export default function CardOne() {
               );
             } else if (toss.category.environment) {
               return (
-                <div className="environment">
+                <div className="environment"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Environment
                   </Typography>
@@ -71,7 +104,11 @@ export default function CardOne() {
               );
             } else if (toss.category.society) {
               return (
-                <div className="society">
+                <div className="society"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>Society</Typography>
                   {toss.prompt}
                   <p>{'\n'}</p>

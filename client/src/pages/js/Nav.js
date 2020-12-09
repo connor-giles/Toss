@@ -60,7 +60,7 @@ const Nav = () => {
         </Link>
 
         {isLoggedIn ? (
-          <li>SIGN OUT</li>
+          <li>LOGGED IN</li>
         ) : (
           <Link to="/signin" className="nav-links" onClick={handleLogin}>
             <li>SIGN IN</li>
