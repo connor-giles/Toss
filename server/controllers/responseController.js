@@ -3,17 +3,24 @@ const { Collection } = require('mongoose');
 //const { db } = require('../config/config.js');
 const Response = require('../models/responseModel');
 const AppError = require('../utils/appError.js');
+const APIFilters = require('../utils/apiFilters');
+const catchAsync = require('../utils/catchAsync');
 
-// Retrieve all the docs
-exports.listAll = async (req, res) => {
-  await Response.find({}, (err, data) => {
-    if (err)
-      return res.status(400).send({
-        message: err.message || 'An unknown error occurred',
-      });
-    res.json(data);
-  });
-};
+exports.limitToThree = catchAsync(async (req, res, next) => {
+  req.query.limit = '3';
+  next();
+});
+
+// // Retrieve all the docs
+// exports.listAll = async (req, res) => {
+//   await Response.find({}, (err, data) => {
+//     if (err)
+//       return res.status(400).send({
+//         message: err.message || 'An unknown error occurred',
+//       });
+//     res.json(data);
+//   });
+// };
 
 /* Show the current FootballClub */
 exports.getResponse = async (req, res) => {
@@ -33,6 +40,57 @@ exports.getResponse = async (req, res) => {
       });
     });
 };
+
+exports.aggregateTossResponses = catchAsync(async (req, res, next) => {
+  // Execute query
+  const features = new APIFilters(
+    Response.find({ assocToss: mongoose.Types.ObjectId(req.body.tossID) }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const responses = await features.query;
+
+  req.responses = responses;
+  next();
+});
+
+exports.getUserResponses = catchAsync(async (req, res, next) => {
+  // Execute query
+  const features = new APIFilters(
+    Response.find({ userID: mongoose.Types.ObjectId(req.user._id) }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const responses = await features.query;
+
+  req.responses = responses;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      responses,
+    },
+  });
+});
+
+// Gets all the responses for a Toss whose ObjectId is sent in the request as 'tossID'
+exports.getTossResponses = catchAsync(async (req, res, next) => {
+  // Execute query
+
+  res.status(200).json({
+    status: 'success',
+    results: req.responses.length,
+    data: req.responses,
+  });
+});
 
 exports.updateResponse = async (req, res) => {
   let id = req.params.id;
@@ -54,12 +112,6 @@ exports.updateResponse = async (req, res) => {
       message: err,
     });
   }
-};
-
-const catchAsync = (fn) => {
-  return (req, res, next) => {
-    fn(req, res, next).catch(next);
-  };
 };
 
 /* Create a entry in db */

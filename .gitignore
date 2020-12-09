@@ -25,5 +25,5 @@ yarn-error.log*
 
 #config info
 server/config/config.js
-server/config/config.env
-client/debug.log
+server/config.env
+

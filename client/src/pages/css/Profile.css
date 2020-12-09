@@ -4,6 +4,7 @@
 }
 
 .settings-link{
+  font-family: "Helvetica", Sans-Serif;
   text-decoration: none;
   list-style: none;
   color: black;
@@ -11,37 +12,41 @@
 }
 
 .profile-landing {
+  font-family: "Helvetica", Sans-Serif;
   width:100%;
   height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #134E5E;  
-  background: -webkit-linear-gradient(to left, #71B280, #134E5E); 
-  background: linear-gradient(to left, #71B280, #134E5E); 
+  background: #404374;
 }
 
-.profile-info {
-  background-color: #134E5E;  
-}
 .info {
+  font-family: "Helvetica", Sans-Serif;
   display: flex;
   flex-direction: row;
-  background-color: green;
+  background:#404374;
   height: 500px;
-  padding-top: 20px;
 }
 
 .stats-container {
-  background-color: red;
+  font-family: "Helvetica", Sans-Serif;
   height: 200px;
   width: 20%;
   
 }
 
 .history-container {
-  background-color: yellow;
+  font-family: "Helvetica", Sans-Serif;
+  background-color:white;
   height: 200px;
   width: 80%;
+}
+
+.names {
+  font-family: "Helvetica", Sans-Serif;
+  background-color:white;
+  height: 50px;
+  max-width: 100px;
 }

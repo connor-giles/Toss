@@ -83,6 +83,10 @@ const tossSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
       },
+      MFTScore: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
 });

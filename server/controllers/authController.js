@@ -3,7 +3,6 @@ const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const router = require('../routes/tossRouter');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -67,6 +66,14 @@ exports.login = catchAsync(async (req, res, next) => {
   // 3 If everything is ok, send token to client
   createSendToken(user, 200, res);
 });
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
 
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
   let token;

@@ -3,6 +3,7 @@ const express = require('express');
 const tossController = require('../controllers/tossController');
 const authController = require('../controllers/authController');
 const responseController = require('../controllers/responseController');
+const { route } = require('./userRouter');
 
 const router = express.Router();
 
@@ -31,6 +32,7 @@ router
   .route('/3Phase2Tosses')
   .get(tossController.aliasPhase2Tosses, tossController.getAllTosses);
 
+//
 router
   .route('/getTossed')
   .get(
@@ -47,9 +49,24 @@ router
   .patch(
     authController.protect,
     tossController.getTossToParticipateIn,
+    tossController.limitToOneToss,
     responseController.create,
     tossController.addResponse
   );
+
+router
+  .route('/phase2')
+  .get(authController.protect, tossController.getResponseData);
+
+router
+  .route('/aggregate')
+  .get(
+    authController.protect,
+    responseController.aggregateTossResponses,
+    responseController.getTossResponses
+  );
+//router.patch('/updateAll', tossController.updateAll);
+
 // router for getting/updating all details of an individual Toss
 router
   .route('/:id')

@@ -11,15 +11,21 @@ router.route('/isLoggedIn').get(authController.isLoggedIn);
   .then((response) => setLoginStatus(response.data.isLoggedIn));
 */
 
+// router.patch('/update', userController.updateMany);
+
 router.post('/register', authController.register);
 
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 router.patch(
   '/updateMyPassword',
   authController.protect,
   authController.updateCredentials
 );
+
+router.get('/user', authController.protect, userController.getUser);
+router.patch('/quiz', authController.protect, userController.updateQuiz);
 
 /*router
   .route('/:id')
