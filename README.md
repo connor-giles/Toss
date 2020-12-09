@@ -34,6 +34,7 @@ This app can be deployed directly to heroku since there is a script defined in p
 #### `.gitignore` - Tells git which files to ignore
 #### `README` - This file!
 
+
 ## Available Scripts
 
 In the project directory, you can run:
