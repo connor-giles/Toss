@@ -3,6 +3,19 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config.js';
 
+export let data = async () => {
+  await axios
+    .get(config.DOMAIN.name + 'user/user', {
+      withCredentials: true,
+      credentials: 'include',
+    })
+    .then((response) => {
+      // console.log(response.data.user);
+      return response.data.data;
+    })
+    .catch((error) => console.error(error));
+};
+
 const Nav = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(0);
 
@@ -14,6 +27,7 @@ const Nav = () => {
       })
       .then((response) => {
         setIsLoggedIn(response.data.isLoggedIn);
+        //data = response.data.user;
         console.log(response.data.isLoggedIn);
       })
       .catch((error) => console.error(error));
@@ -38,7 +52,9 @@ const Nav = () => {
         <Link to="/" className="nav-links" onClick={handleLogin}>
           <li>HOME</li>
         </Link>
-        <li>ABOUT </li>
+        <Link to="/about" className="nav-links" onClick={handleLogin}>
+          <li>ABOUT</li>
+        </Link>
         <Link to="/profile" className="nav-links" onClick={handleLogin}>
           <li>PROFILE</li>
         </Link>
@@ -68,5 +84,4 @@ const Nav = () => {
     </nav>
   );
 };
-
 export default Nav;

@@ -44,6 +44,7 @@ exports.getAllTosses = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
+
   const tosses = await features.query;
 
   // Send response
@@ -66,6 +67,28 @@ exports.getToss = catchAsync(async (req, res, next) => {
     data: info,
   });
 });
+
+/*
+exports.updateAll = catchAsync(async (req, res, next) => {
+  let updatedTosses = await Toss.updateMany(
+    {},
+    {
+      $push: {
+        userResponses: {
+          responseID: mongoose.Types.ObjectId(req.newResponseID),
+          userID: mongoose.Types.ObjectId(req.userID),
+          MFTScore: 0,
+        },
+      },
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: updatedTosses,
+  });
+});
+*/
 
 // req body would contain Response 'req.newResponse', which then gets pushed into Toss
 exports.addResponse = catchAsync(async (req, res, next) => {
@@ -130,7 +153,7 @@ exports.removeToss = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTossStats = catchAsync(async (req, res, next) => {
+/*exports.getTossStats = catchAsync(async (req, res, next) => {
   const stats = await Toss.aggregate([
     { $match: { currentPhase: { $eq: 1 } } },
     {
@@ -140,6 +163,7 @@ exports.getTossStats = catchAsync(async (req, res, next) => {
     },
   ]);
 }); // MIDDLEWARE
+*/
 
 /* MIDDLEWARE
 Used to make sure that a user only gets given one Toss a day to respond to. 
@@ -189,9 +213,11 @@ exports.limitToOneToss = catchAsync(async (req, res, next) => {
   console.log(checkIfTossed);
 
   if (checkIfTossed)
-    return next(
-      new AppError('User has already responded to a Toss today', 409)
-    );
+    res.status(201).json({
+      status: 'success',
+      message: 'User has participated in a toss already, here is that toss',
+      data: checkIfTossed,
+    });
 
   req.todaysTosses = todaysTosses;
   next();
@@ -209,5 +235,31 @@ exports.getTossed = catchAsync(async (req, res, next) => {
     status: 'success',
     message: "Have fun getting Toss'd!",
     data: toss,
+  });
+});
+
+exports.getResponseData = catchAsync(async (req, res, next) => {
+  const responses = await Toss.aggregate([
+    {
+      $match: { _id: mongoose.Types.ObjectId(req.body.tossID) },
+    },
+    {
+      $unwind: '$userResponses',
+    },
+    // {
+    //   $group: {
+    //     _id: null,
+    //     std: { $stdDevSamp: '$userResponses.MFTScore' },
+    //     avg: { $avg: '$userResponses.MFTScore' },
+    //   },
+    // },
+  ]);
+
+  // console.log(responses[0].avg);
+
+  res.status(201).json({
+    status: 'success',
+    message: 'Here are the data of each response for that toss',
+    data: responses,
   });
 });

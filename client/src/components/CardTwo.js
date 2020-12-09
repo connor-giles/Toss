@@ -91,7 +91,7 @@ export default function CardTwo() {
         </div>
       </CardContent>
 
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -117,7 +117,7 @@ export default function CardTwo() {
             ))}
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   );
 }

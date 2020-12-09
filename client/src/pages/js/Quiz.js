@@ -16,12 +16,12 @@ export default class Register extends Component {
     this.onInputAnswer = this.onInputAnswer.bind(this);
 
     this.state = {
-      answers: '',
+      answers: [],
     };
   }
 
   onInputAnswer(e) {
-    this.setState({ answers: e.target.value });
+    this.setState({ answers: answers.push(e.target.value) });
   }
 
   onSubmit(e) {
@@ -30,10 +30,11 @@ export default class Register extends Component {
     const user = {
       answers: this.state.answers,
     };
+    console.log(user);
 
     //post user's quiz answers to backend
     axios
-      .post(config.DOMAIN.name + 'user/quiz', user)
+      .patch(config.DOMAIN.name + 'user/quiz', user)
       .then((res) => {
         console.log(res.data);
       })
@@ -108,7 +109,7 @@ export default class Register extends Component {
       //quiz headers
       <div className="quizwrapper">
         <div className="quizbox">
-          <h1 className="quiztitle">Moral Foundations Test</h1>
+          <p className="quiztitle">Moral Foundations Test</p>
           <form onSubmit={this.onSubmit}>
             <div>{final}</div>
 

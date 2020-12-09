@@ -45,7 +45,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail],
     unique: [true, 'email already used'],
-    select: false,
   },
 
   responses: [
@@ -56,6 +55,7 @@ const userSchema = new mongoose.Schema({
   ],
 
   MFT: {
+    totalScore: { type: Number, default: 0 },
     care: { type: Number, default: 0 },
     fairness: { type: Number, default: 0 },
     ingroupLoyalty: { type: Number, default: 0 },

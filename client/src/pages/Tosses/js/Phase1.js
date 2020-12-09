@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/Phase1.css';
 import axios from 'axios';
 import config from '../../../config/config.js';
+import Typography from '@material-ui/core/Typography';
 
 export default class SubmitResponse extends Component {
   constructor(props) {
@@ -15,6 +16,8 @@ export default class SubmitResponse extends Component {
       userID: '',
       source: '',
       comment: '',
+      prompt: '',
+      category: [],
     };
   }
 
@@ -38,15 +41,30 @@ export default class SubmitResponse extends Component {
 
     //posts the user's answer to the promt to the backend
     axios
-      .post(config.DOMAIN.name + 'response', tossResponse)
+      .patch(config.DOMAIN.name + 'toss/newResponse', tossResponse, {
+        withCredentials: true,
+        credentials: 'include',
+      })
       .then((res) => {
         console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-
     this.setState({ userID: '', source: '', comment: '' });
+  }
+
+  componentDidMount() {
+    axios
+      .get(config.DOMAIN.name + 'toss/getTossed', {
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((res) => {
+        this.setState({ prompt: res.data.data.prompt });
+        this.setState({ category: res.data.data.category });
+        console.log(this.state.category);
+      });
   }
 
   render() {
@@ -54,22 +72,40 @@ export default class SubmitResponse extends Component {
       <div className="page">
         <form className="wrapper" onSubmit={this.onSubmit}>
           <div className="form-group">
+            <div className="prompt-wrapper">
+              <p className="prompt">{this.state.prompt}</p>
+            </div>
+
+            {/* <div className="category">
+            {Object.keys(this.state.category).map((keyName, i) => (
+              <li className="categoryMapping" key={i}>
+                  <span className="specific-category">category: {this.state.category[keyName].science}</span>
+              </li>
+            ))}
+           </div> */}
             <label className="label"> Input Comment </label>
             <textarea
               className="comment-input"
               type="text"
-              value={this.state.source}
-              onChange={this.onInputSource}
+              maxLength="500"
+              value={this.state.comment}
+              onChange={this.onInputComment}
             />
-            <p>{this.state.count}</p>
+            <div>
+              {this.state.count == null ? (
+                <p className="count">0/500</p>
+              ) : (
+                <p className="count">{this.state.count}/500</p>
+              )}
+            </div>
           </div>
           <div className="form-group">
             <label className="label"> Input Source </label>
             <input
               className="source-input"
               type="text"
-              value={this.state.comment}
-              onChange={this.onInputComment}
+              value={this.state.source}
+              onChange={this.onInputSource}
             />
           </div>
           <div className="form-group">
