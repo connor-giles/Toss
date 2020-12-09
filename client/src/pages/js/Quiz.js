@@ -34,7 +34,7 @@ export default class Register extends Component {
 
     //post user's quiz answers to backend
     axios
-      .post(config.DOMAIN.name + 'user/quiz', user)
+      .patch(config.DOMAIN.name + 'user/quiz', user)
       .then((res) => {
         console.log(res.data);
       })

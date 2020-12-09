@@ -6,10 +6,36 @@ import CardOne from '../../components/CardOne';
 import CardTwo from '../../components/CardTwo';
 import { Link } from 'react-router-dom';
 
-
 import { Grid } from '@material-ui/core';
+import { Update } from '@material-ui/icons';
 
 function Home() {
+  let time = '';
+  const [ctime, setCtime] = useState(time);
+
+  const UpdateTime = () => {
+    var start = new Date();
+    start.setHours(17, 0, 0); // 5pm
+
+    function pad(num) {
+      return ('0' + parseInt(num)).substr(-2);
+    }
+
+    var now = new Date();
+    if (now > start) {
+      // too late, go to tomorrow
+      start.setDate(start.getDate() + 1);
+    }
+    var remain = (start - now) / 1000;
+    var hh = pad((remain / 60 / 60) % 60);
+    var mm = pad((remain / 60) % 60);
+    var ss = pad(remain % 60);
+    //setCtime(hh+":"+mm+":"+ss);
+    setCtime(hh + 'hrs ' + mm + 'mins ' + ss + 'secs ');
+  };
+
+  setInterval(UpdateTime, 1000);
+
   return (
     <div className="homePage">
       <div className="landing">
@@ -20,9 +46,14 @@ function Home() {
           Making the world more educated, one toss at a time.{' '}
         </p>
         <Link to="/response">
-          <button className="tossButton"><p className="tossButton-text">Get Toss'd</p></button>
+          <button className="tossButton">
+            <p className="tossButton-text">Get Toss'd</p>
+          </button>
         </Link>
-        
+
+        <br></br>
+        <h1>Time until 5pm EST</h1>
+        <h2>{ctime}</h2>
       </div>
 
       <Grid container>

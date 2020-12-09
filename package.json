@@ -12,7 +12,7 @@
     "build": "cd client && npm build",
     "start": "node server/server.js",
     "debug": "ndb server/server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && rm -rf node_modules && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -40,14 +40,15 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.10.11",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
+    "react-live-clock": "^5.0.13",
     "serve": "^11.3.2",
     "should": "^13.2.3",
     "supertest": "^4.0.2",
     "validator": "^13.1.17",
     "xss-clean": "^0.1.1"
-  },
-  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme"
+  }
 }
