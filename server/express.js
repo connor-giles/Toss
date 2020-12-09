@@ -1,3 +1,4 @@
+//const { config } = require('dotenv/types');
 const path = require('path'),
   express = require('express'),
   mongoose = require('mongoose'),
@@ -11,6 +12,7 @@ const path = require('path'),
   helmet = require('helmet'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
+  config = require('./config/config.js');
 
 const responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
@@ -38,7 +40,7 @@ module.exports.init = () => {
   app.use(
     cors({
       credentials: true,
-      origin: 'http://localhost:3000',
+      origin: config.DOMAIN.name
     })
   );
 
