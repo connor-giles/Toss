@@ -15,6 +15,8 @@ export default function CardOne() {
   const classes = useStyles();
   const [phaseOne, setPhaseOne] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
+  const [tossId, setTossId] = useState("");
+  const [preview, setPreview] = useState([]);
 
   //gets 4 tosses categories in phase 1
   useEffect(() => {
@@ -27,6 +29,21 @@ export default function CardOne() {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const testClick = () => {
+    console.log(tossId);
+    axios
+    .get(config.DOMAIN.name + 'response/' + tossId, {
+        withCredentials: true,
+        credentials: 'include',
+      })
+    .then((response) => {
+        setPreview(response.data.data);
+        console.log(response.data.data);
+    })
+    .catch((error) => console.error(error));
+
+  }
 
   return (
     <Card className={classes.root}>
@@ -41,7 +58,11 @@ export default function CardOne() {
           {phaseOne.map((toss) => {
             if (toss.category.science) {
               return (
-                <div className="science">
+                <div className="science"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Science and Technology
                   </Typography>
@@ -51,7 +72,11 @@ export default function CardOne() {
               );
             } else if (toss.category.politics) {
               return (
-                <div className="politics">
+                <div className="politics"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Politics
                   </Typography>
@@ -61,7 +86,11 @@ export default function CardOne() {
               );
             } else if (toss.category.environment) {
               return (
-                <div className="environment">
+                <div className="environment"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>
                     Environment
                   </Typography>
@@ -71,7 +100,11 @@ export default function CardOne() {
               );
             } else if (toss.category.society) {
               return (
-                <div className="society">
+                <div className="society"
+                  onClick={(() =>  {
+                    setTossId(toss._id);
+                    testClick();
+                  })}>
                   <Typography className={classes.tossTitle}>Society</Typography>
                   {toss.prompt}
                   <p>{'\n'}</p>
