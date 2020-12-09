@@ -4,7 +4,6 @@ import '../css/Home.css';
 import CardZero from '../../components/CardZero';
 import CardOne from '../../components/CardOne';
 import CardTwo from '../../components/CardTwo';
-import moment from 'moment';
 
 import { Grid } from '@material-ui/core';
 import { Update } from '@material-ui/icons';
@@ -15,20 +14,23 @@ function Home() {
   const [ctime, setCtime] = useState(time);
 
   const UpdateTime = () => {
-    var toDate=new Date();
-    var tomorrow=new Date();
-    tomorrow.setHours(17,0,0,0);
-    var diffMS=tomorrow.getTime()/1000-toDate.getTime()/1000;
-    var diffHr=Math.floor(diffMS/3600);
-    diffMS=diffMS-diffHr*3600;
-    var diffMi=Math.floor(diffMS/60);
-    diffMS=diffMS-diffMi*60;
-    var diffS=Math.floor(diffMS);
-    var result=((diffHr<10)?"0"+diffHr:diffHr);
-    result+=":"+((diffMi<10)?"0"+diffMi:diffMi);
-    result+=":"+((diffS<10)?"0"+diffS:diffS);
-      
-    setCtime(result)
+    var start = new Date();
+    start.setHours(17, 0, 0); // 5pm
+  
+    function pad(num) {
+      return ("0" + parseInt(num)).substr(-2);
+    }
+
+    var now = new Date();
+    if (now > start) { // too late, go to tomorrow
+      start.setDate(start.getDate() + 1);
+    }
+    var remain = ((start - now) / 1000);
+    var hh = pad((remain / 60 / 60) % 60);
+    var mm = pad((remain / 60) % 60);
+    var ss = pad(remain % 60);
+    //setCtime(hh+":"+mm+":"+ss);
+    setCtime(hh+"hrs "+mm+"mins "+ss+"secs ");
   }
 
   setInterval(UpdateTime, 1000)
