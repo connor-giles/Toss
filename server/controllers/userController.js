@@ -1,7 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
-const Toss = require('../models/tossModel');
 const { Mongoose } = require('mongoose');
 
 // Retrieve all the docs
