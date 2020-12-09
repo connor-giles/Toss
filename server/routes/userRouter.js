@@ -24,6 +24,7 @@ router.patch(
 );
 
 router.get('/user', authController.protect, userController.getUser);
+router.patch('/quiz', authController.protect, userController.updateQuiz);
 
 /*router
   .route('/:id')
