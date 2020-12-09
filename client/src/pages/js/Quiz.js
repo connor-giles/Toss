@@ -105,8 +105,6 @@ export default class Register extends Component {
     this.setState({
       answers: '',
     });
-
-    // this.handleSubmit();
   }
 
   render() {
