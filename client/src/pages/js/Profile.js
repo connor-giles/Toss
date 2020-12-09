@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Profile.css';
 import { Link } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
@@ -14,8 +14,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import { data } from './Nav';
-var username,
+import axios from 'axios';
+import config from '../../config/config.js';
+
+// import { data } from './Nav';
+let username,
+  data,
   email,
   care,
   fairness,
@@ -49,9 +53,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// let data = async () => {
+//   await axios
+//     .get(config.DOMAIN.name + 'user/user', {
+//       withCredentials: true,
+//       credentials: 'include',
+//     })
+//     .then((response) => {
+//       //console.log(response.data.data);
+//       return response.data.data;
+//     })
+//     .catch((error) => console.error(error));
+// };
+
 //export for table
-export default function DenseTable() {
+const Profile = () => {
   const classes = useStyles();
+  const [data, setData] = useState([]);
+  const [email, setEmail] = useState([]);
+  const [MFT, setMFT] = useState([]);
+  const [username, setUsername] = useState([]);
 
   //for image upload
   const [image, setImage] = useState({ preview: '', raw: '' });
@@ -64,6 +85,23 @@ export default function DenseTable() {
       });
     }
   };
+
+  useEffect(() => {
+    console.log('fml');
+    axios
+      .get(config.DOMAIN.name + 'user/user', {
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setData(response.data.data);
+        setEmail(response.data.data.email);
+        setUsername(response.data.data.username);
+        setMFT(response.data.data.MFT);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -84,32 +122,35 @@ export default function DenseTable() {
     return { name, score };
   }
 
-  //sets data for profile
-  if (data == 0) {
-    username = 'Not Logged In';
-    email = 'Not Logged In';
-    care = 0;
-    fairness = 0;
-    ingroupLoyalty = 0;
-    authorityRespect = 0;
-    puritySanctity = 0;
-  } else {
-    username = data.username;
-    email = data.email;
-    care = data.care;
-    fairness = data.fairness;
-    ingroupLoyalty = data.ingroupLoyalty;
-    authorityRespect = data.authorityRespect;
-    puritySanctity = data.puritySanctity;
-  }
+  // //sets data for profile
+  // if (data === null) {
+  //   console.log('data is null');
+  //   username = 'Not Logged In';
+  //   email = 'Not Logged In';
+  //   care = 0;
+  //   fairness = 0;
+  //   ingroupLoyalty = 0;
+  //   authorityRespect = 0;
+  //   puritySanctity = 0;
+  // } else {
+  //   console.log(data);
+  //   console.log("data isn't null");
+  //   username = data.username;
+  //   email = data.email;
+  //   care = data.MFT.care;
+  //   fairness = data.MFT.fairness;
+  //   ingroupLoyalty = data.MFT.ingroupLoyalty;
+  //   authorityRespect = data.MFT.authorityRespect;
+  //   puritySanctity = data.MFT.puritySanctity;
+  // }
 
   //sets table data per row
   const rows = [
-    createData('Care', care),
-    createData('Fairness', fairness),
-    createData('Ingroup Loyalty', ingroupLoyalty),
-    createData('Respect for Authority', authorityRespect),
-    createData('Purity/Sanctity', puritySanctity),
+    createData('Care', MFT.care),
+    createData('Fairness', MFT.fairness),
+    createData('Ingroup Loyalty', MFT.ingroupLoyalty),
+    createData('Respect for Authority', MFT.authorityRespect),
+    createData('Purity/Sanctity', MFT.puritySanctity),
   ];
 
   return (
@@ -265,4 +306,6 @@ export default function DenseTable() {
       </div>
     </div>
   );
-}
+};
+
+export default Profile;

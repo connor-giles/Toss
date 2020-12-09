@@ -45,7 +45,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail],
     unique: [true, 'email already used'],
-    select: false,
   },
 
   responses: [

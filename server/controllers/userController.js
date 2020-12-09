@@ -20,6 +20,8 @@ exports.listAll = catchAsync(async (req, res) => {
 exports.getUser = catchAsync(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+  //console.log(user);
+
   if (!user) {
     return next(new AppError('Username:' + id + ' not found.', 404));
   } else {

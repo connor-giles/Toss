@@ -2,19 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config.js';
-var data = 0;
+
+export let data = async () => {
+  await axios
+    .get(config.DOMAIN.name + 'user/user', {
+      withCredentials: true,
+      credentials: 'include',
+    })
+    .then((response) => {
+      // console.log(response.data.user);
+      return response.data.data;
+    })
+    .catch((error) => console.error(error));
+};
+
 const Nav = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(0);
 
   let handleLogin = () => {
     axios
-      .get(config.DOMAIN.name + 'user/user', {
+      .get(config.DOMAIN.name + 'user/isLoggedIn', {
         withCredentials: true,
         credentials: 'include',
       })
       .then((response) => {
         setIsLoggedIn(response.data.isLoggedIn);
-        data = response.data.user;
+        //data = response.data.user;
         console.log(response.data.isLoggedIn);
       })
       .catch((error) => console.error(error));
@@ -71,5 +84,4 @@ const Nav = () => {
     </nav>
   );
 };
-export var data;
 export default Nav;

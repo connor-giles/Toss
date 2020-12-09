@@ -16,12 +16,12 @@ export default class Register extends Component {
     this.onInputAnswer = this.onInputAnswer.bind(this);
 
     this.state = {
-      answers: '',
+      answers: [],
     };
   }
 
   onInputAnswer(e) {
-    this.setState({ answers: e.target.value });
+    this.setState({ answers: answers.push(e.target.value) });
   }
 
   onSubmit(e) {
@@ -30,6 +30,7 @@ export default class Register extends Component {
     const user = {
       answers: this.state.answers,
     };
+    console.log(user);
 
     //post user's quiz answers to backend
     axios
