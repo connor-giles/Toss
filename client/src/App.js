@@ -15,6 +15,7 @@ import Quiz from './pages/js/Quiz';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Responses from './pages/js/Responses';
 import LoggedIn from './pages/js/loggedIn';
+import LoggedOut from './pages/js/loggedOut';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/responses" component={Responses} />
           <Route path="/quiz" component={Quiz} />
           <Route path="/loggedIn" component={LoggedIn} />
+          <Route path="/loggedOut" component={LoggedOut} />
           <Route path="/about" component={About} />
         </Switch>
       </div>

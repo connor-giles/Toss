@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../css/quiz.css';
 import config from '../../config/config.js';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 let bcrypt = require('bcryptjs');
 //var json = require('../questions/questions.json');
@@ -25,6 +26,13 @@ export default class Register extends Component {
       answers: [...prevState.answers, parseInt(e.target.value)],
     }));
   }
+
+  // handleSubmit = () => {
+  //   const history = useHistory();
+  //   setTimeout(function () {
+  //     history.replace('/');
+  //   }, 2000);
+  // };
 
   onSubmit(e) {
     e.preventDefault();
@@ -97,6 +105,8 @@ export default class Register extends Component {
     this.setState({
       answers: '',
     });
+
+    this.handleSubmit();
   }
 
   render() {
