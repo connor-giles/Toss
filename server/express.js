@@ -12,7 +12,7 @@ const path = require('path'),
   helmet = require('helmet'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
-  config = require('./config/config.js');
+  //config = require('./config/config');
 
 const responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
@@ -40,7 +40,7 @@ module.exports.init = () => {
   app.use(
     cors({
       credentials: true,
-      origin: config.DOMAIN.name
+      origin: require('./config/config').DOMAIN.name
     })
   );
 
