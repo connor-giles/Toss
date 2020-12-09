@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config.js';
-
+var data = 0;
 const Nav = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(0);
 
@@ -14,6 +14,7 @@ const Nav = () => {
       })
       .then((response) => {
         setIsLoggedIn(response.data.isLoggedIn);
+        //data = response.data.data;
         console.log(response.data.isLoggedIn);
       })
       .catch((error) => console.error(error));
@@ -68,5 +69,5 @@ const Nav = () => {
     </nav>
   );
 };
-
+export var data;
 export default Nav;
