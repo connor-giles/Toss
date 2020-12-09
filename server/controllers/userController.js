@@ -49,6 +49,12 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 
 // Updates quiz for a user.
 exports.updateQuiz = catchAsync(async (req, res, next) => {
+  let totalScore =
+    req.body.care +
+    req.body.puritySanctity +
+    req.body.authorityRespect +
+    req.body.ingroupLoyalty +
+    req.body.fairness;
   const user = await User.findById({ _id: req.user._id }).update({
     $set: {
       'MFT.care': req.body.care,
@@ -56,7 +62,7 @@ exports.updateQuiz = catchAsync(async (req, res, next) => {
       'MFT.ingroupLoyalty': req.body.ingroupLoyalty,
       'MFT.authorityRespect': req.body.authorityRespect,
       'MFT.puritySanctity': req.body.puritySanctity,
-      'MFT.totalScore': req.body.totalScore,
+      'MFT.totalScore': totalScore,
     },
   });
 

@@ -21,20 +21,72 @@ export default class Register extends Component {
   }
 
   onInputAnswer(e) {
-    this.setState({ answers: answers.push(e.target.value) });
+    this.setState((prevState) => ({
+      answers: [...prevState.answers, parseInt(e.target.value)],
+    }));
   }
 
   onSubmit(e) {
     e.preventDefault();
 
+    //  MFT.care': req.body.care,
+    //   MFT.fairness': req.body.fairness,
+    //   MFT.ingroupLoyalty': req.body.ingroupLoyalty,
+    //   MFT.authorityRespect': req.body.authorityRespect,
+    //   'MFT.puritySanctity': req.body.puritySanctity,
+    //   'MFT.totalScore
+    let care,
+      fairness,
+      ingroupLoyalty,
+      authorityRespect,
+      puritySanctity,
+      totalScore;
+
     const user = {
-      answers: this.state.answers,
+      care:
+        this.state.answers[0] +
+        this.state.answers[6] +
+        this.state.answers[11] +
+        this.state.answers[16] +
+        this.state.answers[22] +
+        this.state.answers[27],
+      fairness:
+        this.state.answers[1] +
+        this.state.answers[7] +
+        this.state.answers[12] +
+        this.state.answers[17] +
+        this.state.answers[23] +
+        this.state.answers[28],
+      ingroupLoyalty:
+        this.state.answers[2] +
+        this.state.answers[8] +
+        this.state.answers[13] +
+        this.state.answers[18] +
+        this.state.answers[24] +
+        this.state.answers[29],
+      authorityRespect:
+        this.state.answers[3] +
+        this.state.answers[9] +
+        this.state.answers[14] +
+        this.state.answers[19] +
+        this.state.answers[25] +
+        this.state.answers[30],
+      puritySanctity:
+        this.state.answers[4] +
+        this.state.answers[10] +
+        this.state.answers[15] +
+        this.state.answers[20] +
+        this.state.answers[26] +
+        this.state.answers[31],
     };
-    console.log(user);
+    //console.log(user);
 
     //post user's quiz answers to backend
     axios
-      .patch(config.DOMAIN.name + 'user/quiz', user)
+      .patch(config.DOMAIN.name + 'user/quiz', user, {
+        withCredentials: true,
+        credentials: 'include',
+      })
       .then((res) => {
         console.log(res.data);
       })
@@ -91,7 +143,7 @@ export default class Register extends Component {
     );
 
     //second 16 questions
-    for (var i = 16; i < 31; i++) {
+    for (var i = 16; i <= 31; i++) {
       final.push(
         <div className="username">
           <label className="question">{questions[i].question}</label>
