@@ -11,8 +11,8 @@
     "dev": "concurrently \"nodemon server/server.js\" \"cd client && npm run start\"",
     "build": "cd client && npm build",
     "start": "node server/server.js",
-    "debug": "ndb server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "debug": "ndb server/server.js",
+    "heroku-postbuild": "cd client && rm -rf node_modules && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,24 +22,33 @@
   "author": "Dakota Rennemann",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
     "all": "0.0.0",
     "axios": "^0.21.0",
     "bcryptjs": "2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.1",
+    "express-rate-limit": "^5.2.3",
+    "find-config": "^1.0.0",
+    "helmet": "^4.2.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.10.11",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
+    "react-live-clock": "^5.0.13",
     "serve": "^11.3.2",
     "should": "^13.2.3",
     "supertest": "^4.0.2",
-    "validator": "^13.1.17"
-  },
-  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme",
-  "proxy": "http://localhost:3000"
+    "validator": "^13.1.17",
+    "xss-clean": "^0.1.1"
+  }
 }

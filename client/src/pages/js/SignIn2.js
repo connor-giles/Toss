@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/Sign.css';
+import GLoginHooks from '../../components/GLoginHook.js';
+import GLogoutHooks from '../../components/GLogoutHook.js';
+import config from '../../config/config.js';
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -39,8 +42,9 @@ export default class SignIn extends Component {
       email: this.state.email,
     };
 
+    //submits user account info to backend for sign in
     axios
-      .get('http://localhost:3000/user', user)
+      .post(config.DOMAIN.name + 'user/login', user)
       .then((res) => {
         console.log(res.data);
       })
@@ -56,16 +60,19 @@ export default class SignIn extends Component {
       <div className="wrapper">
         <div className="form">
           <h1 className="pageTitles">Sign In</h1>
+
           <form onSubmit={this.onSubmit}>
+
             <div className="username">
-              <label className="title">Enter Username:</label>
+              <label className="title">Enter Email:</label>
               <input
                 type="text"
-                value={this.state.userName}
-                onChange={this.onInputUser}
+                value={this.state.email}
+                onChange={this.onInputEmail}
                 className="form-control"
               />
             </div>
+
             <div className="pw">
               <label className="title">Enter Password:</label>
               <input
@@ -75,6 +82,7 @@ export default class SignIn extends Component {
                 className="form-control"
               />
             </div>
+
             <div className="signInButton">
               <input
                 type="submit"
@@ -82,7 +90,9 @@ export default class SignIn extends Component {
                 className="btn btn-success btn-block"
               />
             </div>
+
           </form>
+
         </div>
       </div>
     );

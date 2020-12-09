@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -9,9 +9,101 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import config from '../config/config.js';
 
+export default function CardOne() {
+  const classes = useStyles();
+  const [phaseOne, setPhaseOne] = useState([]);
+  const [expanded, setExpanded] = React.useState(false);
 
+  //gets 4 tosses categories in phase 1
+  useEffect(() => {
+    axios
+      .get(config.DOMAIN.name + 'toss/3Phase1Tosses')
+      .then((response) => setPhaseOne(response.data.data.tosses))
+      .catch((error) => console.error(error));
+  }, []);
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <Card className={classes.root}>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          Phase One
+        </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          Prompts
+        </Typography>
+        <div className="tosses">
+          {phaseOne.map((toss) => {
+            if (toss.category.science) {
+              return (
+                <div className="science">
+                  <Typography className={classes.tossTitle}>
+                    Science and Technology
+                  </Typography>
+                  {toss.prompt} {toss.category.science}
+                  <p>{'\n'}</p>
+                </div>
+              );
+            } else if (toss.category.politics) {
+              return (
+                <div className="politics">
+                  <Typography className={classes.tossTitle}>
+                    Politics
+                  </Typography>
+                  {toss.prompt}
+                  <p>{'\n'}</p>
+                </div>
+              );
+            } else if (toss.category.environment) {
+              return (
+                <div className="environment">
+                  <Typography className={classes.tossTitle}>
+                    Environment
+                  </Typography>
+                  {toss.prompt}
+                  <p>{'\n'}</p>
+                </div>
+              );
+            } else if (toss.category.society) {
+              return (
+                <div className="society">
+                  <Typography className={classes.tossTitle}>Society</Typography>
+                  {toss.prompt}
+                  <p>{'\n'}</p>
+                </div>
+              );
+            }
+          })}
+        </div>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <Button size="small">View Responses</Button>
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>Responses:</Typography>
+          <Typography paragraph>
+            Responses not visible until 24 hour answering period ends.
+          </Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
+  );
+}
 
 const useStyles = makeStyles({
   root: {
@@ -28,62 +120,7 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  tossTitle: {
+    fontWeight: 'bold',
+  },
 });
-
-export default function CardOne() {
-  const classes = useStyles();
-  const [phaseOne, setPhaseOne] = useState([]);
-  const [expanded, setExpanded] = React.useState(false);
-
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/toss/3Phase1Tosses')
-    .then((response) => setPhaseOne(response.data.data.tosses))
-    .catch((error) => console.error(error))
-}, []);
-
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography variant="h5" component="h2">
-         Phase One
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Prompts
-        </Typography>
-        <Typography variant="body2" component="p">
-          {phaseOne.map(toss => 
-              <div className="info">{toss.prompt}<p>{"\n"}</p></div>)}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <Button size="small">View Responses</Button>
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Responses:</Typography>
-          <Typography paragraph>
-            Responses not visible  until 24 hour answering period ends.   
-          </Typography>
-        </CardContent>
-      </Collapse>
-     
-
-
-    </Card>
-  );
-}

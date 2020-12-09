@@ -6,69 +6,48 @@ import CardOne from '../../components/CardOne';
 import CardTwo from '../../components/CardTwo';
 
 import { Grid } from '@material-ui/core';
+import { Update } from '@material-ui/icons';
 
 function Home() {
-  // const [phaseOne, setPhaseOne] = useState([]);
-  // const [phaseTwo, setPhaseTwo] = useState([]);
-  // const [phaseZero, setPhaseZero] = useState([]);
+  
+  let time = ''
+  const [ctime, setCtime] = useState(time);
 
-  // useEffect(() => {
-  //     axios.get('http://localhost:3000/toss/3Phase0Tosses')
-  //     .then((response) => setPhaseZero(response.data.data.tosses))
-  //     .catch((error) => console.error(error))
-  // }, []);
+  const UpdateTime = () => {
+    var start = new Date();
+    start.setHours(17, 0, 0); // 5pm
+  
+    function pad(num) {
+      return ("0" + parseInt(num)).substr(-2);
+    }
 
-  // useEffect(() => {
-  //     axios.get('http://localhost:3000/toss/3Phase1Tosses')
-  //     .then((response) => setPhaseOne(response.data.data.tosses))
-  //     .catch((error) => console.error(error))
-  // }, []);
+    var now = new Date();
+    if (now > start) { // too late, go to tomorrow
+      start.setDate(start.getDate() + 1);
+    }
+    var remain = ((start - now) / 1000);
+    var hh = pad((remain / 60 / 60) % 60);
+    var mm = pad((remain / 60) % 60);
+    var ss = pad(remain % 60);
+    //setCtime(hh+":"+mm+":"+ss);
+    setCtime(hh+"hrs "+mm+"mins "+ss+"secs ");
+  }
 
-  // useEffect(() => {
-  //     axios.get('http://localhost:3000/toss/3Phase2Tosses')
-  //     .then((response) => setPhaseTwo(response.data.data.tosses))
-  //     .catch((error) => console.error(error))
-  // }, []);
-
+  setInterval(UpdateTime, 1000)
+  
   return (
     <div className="homePage">
       <div className="landing">
-        <h1 className="welcome">Welcome to Toss</h1>
+        <h1 className="welcome">Welcome to T.O.S.S</h1>
         <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt
-          non enim ut pretium. Morbi accumsan dignissim gravida.{' '}
+          That One Study Shows...
+          <br></br>
+          Making the world more educated, one study at a time{' '}
         </p>
+        <br></br>
+        <h1>Time until 5pm EST</h1>
+        <h2>{ ctime }</h2>
       </div>
-
-      {/* <div className="tossContainer">
-            <div className="tossZero">
-                    <div>
-                        <h1 className="colTitle">Phase Zero</h1>
-                        <h2 className="prompts">Prompts</h2>
-                        {phaseZero.map(toss => 
-                        <div className="info">{toss.prompt}<p>{"\n"}</p></div>)}
-                        <h3>Starts Tomorrow</h3>
-                    </div>
-                </div>
-                <div className="tossOne">
-                    <div>
-                        <h1 className="colTitle">Phase One</h1>
-                        <h2 className="prompts">Prompts</h2>
-                        {phaseOne.map(toss => 
-                        <div className="info">{toss.prompt}<p>{"\n"}</p></div>)}
-                        <h3>Starts Today</h3>
-                    </div>
-                </div>
-                <div className="tossTwo">
-                    <div>
-                         <h1 className="colTitle">Phase Two</h1>
-                         <h2 className="prompts">Prompts</h2>
-                        {phaseTwo.map(toss => 
-                        <div className="info">{toss.prompt}<p>{"\n"}</p></div>)}
-                        <h3>Started Yesterday</h3>
-                    </div>
-                </div>
-            </div> */}
 
       <Grid container>
         <Grid item xs={4}>

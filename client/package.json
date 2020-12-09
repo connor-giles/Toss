@@ -2,6 +2,7 @@
   "name": "toss",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -38,6 +39,5 @@
   },
   "devDependencies": {
     "react-router-dom": "^5.1.2"
-  },
-  "proxy": "http://localhost:3000"
+  }
 }

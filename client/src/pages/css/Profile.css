@@ -1,9 +1,47 @@
-.Profile {
-  }
+.profile {
+  flex: 1;
+  flex-direction: column;
+}
 
 .settings-link{
   text-decoration: none;
   list-style: none;
   color: black;
   text-align: right;
+}
+
+.profile-landing {
+  width:100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #134E5E;  
+  background: -webkit-linear-gradient(to left, #71B280, #134E5E); 
+  background: linear-gradient(to left, #71B280, #134E5E); 
+}
+
+.profile-info {
+  background-color: #134E5E;  
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  background-color: green;
+  height: 500px;
+  padding-top: 20px;
+}
+
+.stats-container {
+  background-color: red;
+  height: 200px;
+  width: 20%;
+  
+}
+
+.history-container {
+  background-color: yellow;
+  height: 200px;
+  width: 80%;
 }

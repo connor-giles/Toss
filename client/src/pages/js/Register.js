@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/Sign.css';
+import config from '../../config/config.js';
+
 let bcrypt = require('bcryptjs');
 
 export default class Register extends Component {
@@ -52,8 +54,9 @@ export default class Register extends Component {
       credentialsConfirm: this.state.credentialsConfirm,
     };
 
+    //submits user account info to backend
     axios
-      .post('http://localhost:3000/user/register', user)
+      .post(config.DOMAIN.name + 'user/register', user)
       .then((res) => {
         console.log(res.data);
       })
@@ -111,7 +114,6 @@ export default class Register extends Component {
                 className="form-control"
               />
             </div>
-            <p> {this.state.credentials} </p>
             <div className="signInButton">
               <input
                 type="submit"
