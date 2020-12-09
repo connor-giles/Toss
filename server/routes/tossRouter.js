@@ -55,9 +55,17 @@ router
     tossController.addResponse
   );
 
-router.route('/phase2').get(authController.protect);
+router
+  .route('/phase2')
+  .get(authController.protect, tossController.getResponseData);
 
-router.get('/aggregate', userController.phase2Aggregate);
+router
+  .route('/aggregate')
+  .get(
+    authController.protect,
+    responseController.aggregateTossResponses,
+    responseController.getTossResponses
+  );
 //router.patch('/updateAll', tossController.updateAll);
 
 // router for getting/updating all details of an individual Toss

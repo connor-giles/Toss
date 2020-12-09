@@ -11,6 +11,8 @@ router.route('/isLoggedIn').get(authController.isLoggedIn);
   .then((response) => setLoginStatus(response.data.isLoggedIn));
 */
 
+// router.patch('/update', userController.updateMany);
+
 router.post('/register', authController.register);
 
 router.post('/login', authController.login);

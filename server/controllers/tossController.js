@@ -237,3 +237,29 @@ exports.getTossed = catchAsync(async (req, res, next) => {
     data: toss,
   });
 });
+
+exports.getResponseData = catchAsync(async (req, res, next) => {
+  const responses = await Toss.aggregate([
+    {
+      $match: { _id: mongoose.Types.ObjectId(req.body.tossID) },
+    },
+    {
+      $unwind: '$userResponses',
+    },
+    // {
+    //   $group: {
+    //     _id: null,
+    //     std: { $stdDevSamp: '$userResponses.MFTScore' },
+    //     avg: { $avg: '$userResponses.MFTScore' },
+    //   },
+    // },
+  ]);
+
+  // console.log(responses[0].avg);
+
+  res.status(201).json({
+    status: 'success',
+    message: 'Here are the data of each response for that toss',
+    data: responses,
+  });
+});

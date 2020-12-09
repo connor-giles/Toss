@@ -9,7 +9,12 @@ const router = express.Router();
 
 router
   .route('/tossResponses')
-  .get(authController.protect, responseController.getLimitedTossResponses);
+  .get(
+    authController.protect,
+    responseController.limitToThree,
+    responseController.aggregateTossResponses,
+    responseController.getTossResponses
+  );
 
 router
   .route('/:id')

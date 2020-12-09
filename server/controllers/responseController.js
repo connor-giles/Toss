@@ -6,16 +6,21 @@ const AppError = require('../utils/appError.js');
 const APIFilters = require('../utils/apiFilters');
 const catchAsync = require('../utils/catchAsync');
 
-// Retrieve all the docs
-exports.listAll = async (req, res) => {
-  await Response.find({}, (err, data) => {
-    if (err)
-      return res.status(400).send({
-        message: err.message || 'An unknown error occurred',
-      });
-    res.json(data);
-  });
-};
+exports.limitToThree = catchAsync(async (req, res, next) => {
+  req.query.limit = '3';
+  next();
+});
+
+// // Retrieve all the docs
+// exports.listAll = async (req, res) => {
+//   await Response.find({}, (err, data) => {
+//     if (err)
+//       return res.status(400).send({
+//         message: err.message || 'An unknown error occurred',
+//       });
+//     res.json(data);
+//   });
+// };
 
 /* Show the current FootballClub */
 exports.getResponse = async (req, res) => {
@@ -36,11 +41,7 @@ exports.getResponse = async (req, res) => {
     });
 };
 
-// Gets all the responses for a Toss whose ObjectId is sent in the request as 'tossID'
-exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
-  // change this depending on how many responses you want. Remove it if you'd like all responses for this toss
-  req.query.limit = '3';
-
+exports.aggregateTossResponses = catchAsync(async (req, res, next) => {
   // Execute query
   const features = new APIFilters(
     Response.find({ assocToss: mongoose.Types.ObjectId(req.body.tossID) }),
@@ -53,10 +54,18 @@ exports.getLimitedTossResponses = catchAsync(async (req, res, next) => {
 
   const responses = await features.query;
 
+  req.responses = responses;
+  next();
+});
+
+// Gets all the responses for a Toss whose ObjectId is sent in the request as 'tossID'
+exports.getTossResponses = catchAsync(async (req, res, next) => {
+  // Execute query
+
   res.status(200).json({
     status: 'success',
-    results: responses.length,
-    data: { responses },
+    results: req.responses.length,
+    data: req.responses,
   });
 });
 
