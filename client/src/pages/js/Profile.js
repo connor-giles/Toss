@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import { createMuiTheme } from '@material-ui/core/styles';
+
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -25,12 +27,13 @@ let username,
   fairness,
   ingroupLoyalty,
   authorityRespect,
-  puritySanctity;
+  puritySanctity,
+  prevTosses,
+  userID;
+const tossArr = [];
 //problems with this code
-//#1, user data is not imported correctly from nav.
-//either that or I can't log in to the app correctly for whatever reason
-//#2, there is no implementation for the previous tosses. the HTML is there, the toss data needs to be added
-//#3, change line 67 to the correct URL in Heroku. This allows profile picture to save persistently.
+//#1, there is no implementation for the previous tosses. the HTML is there, the toss data needs to be added
+//#2, change line 67 to the correct URL in Heroku. This allows profile picture to save persistently.
 
 //style for table
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     fontFamily: '"Helvetica Neue"',
+  },
+
+  paperRoot: {
+    backgroundColor: '#fc8368',
   },
 }));
 
@@ -73,9 +80,11 @@ const Profile = () => {
   const [email, setEmail] = useState([]);
   const [MFT, setMFT] = useState([]);
   const [username, setUsername] = useState([]);
-
+  const [userID, setID] = useState([]);
   //for image upload
   const [image, setImage] = useState({ preview: '', raw: '' });
+  //for getting toss responses
+  const [prevTosses, setTosses] = useState([]);
 
   const handleChange = (e) => {
     if (e.target.files.length) {
@@ -88,6 +97,7 @@ const Profile = () => {
 
   useEffect(() => {
     console.log('fml');
+    //axios for user data
     axios
       .get(config.DOMAIN.name + 'user/user', {
         withCredentials: true,
@@ -99,6 +109,18 @@ const Profile = () => {
         setEmail(response.data.data.email);
         setUsername(response.data.data.username);
         setMFT(response.data.data.MFT);
+        setID(response.data.data._id);
+      })
+      .catch((error) => console.error(error));
+    //axios for toss data
+    axios
+      .get(config.DOMAIN.name + 'response/userResponses', {
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((response) => {
+        console.log(response.data.data.responses);
+        setTosses(response.data.data.responses);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -122,28 +144,6 @@ const Profile = () => {
     return { name, score };
   }
 
-  // //sets data for profile
-  // if (data === null) {
-  //   console.log('data is null');
-  //   username = 'Not Logged In';
-  //   email = 'Not Logged In';
-  //   care = 0;
-  //   fairness = 0;
-  //   ingroupLoyalty = 0;
-  //   authorityRespect = 0;
-  //   puritySanctity = 0;
-  // } else {
-  //   console.log(data);
-  //   console.log("data isn't null");
-  //   username = data.username;
-  //   email = data.email;
-  //   care = data.MFT.care;
-  //   fairness = data.MFT.fairness;
-  //   ingroupLoyalty = data.MFT.ingroupLoyalty;
-  //   authorityRespect = data.MFT.authorityRespect;
-  //   puritySanctity = data.MFT.puritySanctity;
-  // }
-
   //sets table data per row
   const rows = [
     createData('Care', MFT.care),
@@ -152,7 +152,78 @@ const Profile = () => {
     createData('Respect for Authority', MFT.authorityRespect),
     createData('Purity/Sanctity', MFT.puritySanctity),
   ];
-
+  if (prevTosses.length == 0) {
+    tossArr.length = 0;
+    tossArr.push(
+      <div>
+        <Divider variant="inset" component="li" />
+        <ListItem alignItems="center">
+          <ListItemText
+            primary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                ></Typography>
+                {'No Tosses'}
+              </React.Fragment>
+            }
+            secondary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                ></Typography>
+                {'No previous Tosses. Please participate in a TOSS.'}
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      </div>
+    );
+  } else {
+    tossArr.length = 0;
+    for (let i = 0; i < prevTosses.length; i++) {
+      tossArr.push(
+        <div>
+          <Divider variant="inset" component="li" />
+          <ListItem alignItems="center">
+            <ListItemText
+              primary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  ></Typography>
+                  {/*  this next line contains the comment from the toss at the index*/}
+                  {prevTosses[i].comment}
+                </React.Fragment>
+              }
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  ></Typography>
+                  {/*  this next line contains the source from the toss at the index*/}
+                  {'Source: ' + prevTosses[i].source}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        </div>
+      );
+      console.log(prevTosses[i]);
+    }
+  }
   return (
     <div className="profile">
       <div className="profile-landing">
@@ -187,7 +258,10 @@ const Profile = () => {
             <button onClick={handleUpload}>Upload</button>
             <div className={classes.root}></div>
             <br></br>
-            <TableContainer component={Paper}>
+            <TableContainer
+              component={Paper}
+              classes={{ root: classes.paperRoot }}
+            >
               <div>
                 <React.Fragment className={classes.typography.fontFamily}>
                   <Typography
@@ -213,7 +287,10 @@ const Profile = () => {
       <div className="info">
         <div className="stats-container">
           <div className="graph-api">
-            <TableContainer component={Paper}>
+            <TableContainer
+              component={Paper}
+              classes={{ root: classes.paperRoot }}
+            >
               <Typography variant="h5" display="block" align="center">
                 MFT Scores
               </Typography>
@@ -243,62 +320,16 @@ const Profile = () => {
           </div>
         </div>
         <div className="history-container">
-          <TableContainer component={Paper}>
+          <TableContainer
+            component={Paper}
+            classes={{ root: classes.paperRoot }}
+          >
             <Typography variant="h5" display="block" align="center">
               Some Previous Tosses
             </Typography>
             <div className="toss-data">
               <List className={classes.root}>
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem alignItems="center">
-                  <ListItemText
-                    primary="TOSS Title Here"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        ></Typography>
-                        {'Toss Content here'}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
+                <div>{tossArr}</div>
               </List>
             </div>
           </TableContainer>

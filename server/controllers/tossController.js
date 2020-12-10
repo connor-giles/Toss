@@ -35,6 +35,28 @@ exports.queryTosses = catchAsync(async(query, queryString) => { =
 })
 */
 
+exports.aggregateTossResponses = catchAsync(async (req, res, next) => {
+  // Find all the user's responses, place them in array
+  const phase2Toss = await Toss.find({
+    userResponses: {
+      $elemMatch: {
+        userID: mongoose.Types.ObjectId(req.user._id),
+      },
+    },
+    currentPhase: 2,
+  });
+
+  console.log(phase2Toss);
+
+  const responses = await Response.find({
+    assocToss: mongoose.Types.ObjectId(phase2Toss[0]._id),
+  });
+
+  req.responses = responses;
+
+  next();
+});
+
 // Retrieve all the docs
 // APIFeatures
 exports.getAllTosses = catchAsync(async (req, res, next) => {

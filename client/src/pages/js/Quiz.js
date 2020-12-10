@@ -23,7 +23,7 @@ export default class Register extends Component {
 
   onInputAnswer(e) {
     this.setState((prevState) => ({
-      answers: [...prevState.answers, parseInt(e.target.value)],
+      answers: [...prevState.answers, e.target.value],
     }));
   }
 
@@ -36,7 +36,17 @@ export default class Register extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    for(let i = 0; i < 32; i++){
+      if(parseInt(this.state.answers[i]) > 5){
+        this.state.answers[i] = 5;
+      }
+      else if(isNaN(parseInt(this.state.answers[i]))){
+        this.state.answers[i] = 0;
+      }
+      else{
+        this.state.answers[i] = parseInt(this.state.answers[i]);
+      }
+    }
     //  MFT.care': req.body.care,
     //   MFT.fairness': req.body.fairness,
     //   MFT.ingroupLoyalty': req.body.ingroupLoyalty,
