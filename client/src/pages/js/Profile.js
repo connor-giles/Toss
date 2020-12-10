@@ -28,12 +28,10 @@ let username,
   puritySanctity,
   prevTosses,
   userID;
-const tossArr = [];
+const tossArr =[];
 //problems with this code
-//#1, user data is not imported correctly from nav.
-//either that or I can't log in to the app correctly for whatever reason
-//#2, there is no implementation for the previous tosses. the HTML is there, the toss data needs to be added
-//#3, change line 67 to the correct URL in Heroku. This allows profile picture to save persistently.
+//#1, there is no implementation for the previous tosses. the HTML is there, the toss data needs to be added
+//#2, change line 67 to the correct URL in Heroku. This allows profile picture to save persistently.
 
 //style for table
 const useStyles = makeStyles((theme) => ({
@@ -79,8 +77,8 @@ const Profile = () => {
   const [userID, setID] = useState([]);
   //for image upload
   const [image, setImage] = useState({ preview: '', raw: '' });
-
-  const [prevTosses, setTosses] = useState([]); //get object of previous responses
+  //for getting toss responses
+  const [prevTosses, setTosses] = useState([]); 
 
 
   const handleChange = (e) => {
@@ -94,6 +92,7 @@ const Profile = () => {
 
   useEffect(() => {
     console.log('fml');
+    //axios for user data
     axios
       .get(config.DOMAIN.name + 'user/user', {
         withCredentials: true,
@@ -107,6 +106,17 @@ const Profile = () => {
         setMFT(response.data.data.MFT);
         setID(response.data.data._id);
         
+      })
+      .catch((error) => console.error(error));
+      //axios for toss data
+    axios
+      .get(config.DOMAIN.name + 'response/userResponses', {
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setTosses(...response.data.data);  
       })
       .catch((error) => console.error(error));
   }, []);
@@ -130,27 +140,6 @@ const Profile = () => {
     return { name, score };
   }
 
-  // //sets data for profile
-  // if (data === null) {
-  //   console.log('data is null');
-  //   username = 'Not Logged In';
-  //   email = 'Not Logged In';
-  //   care = 0;
-  //   fairness = 0;
-  //   ingroupLoyalty = 0;
-  //   authorityRespect = 0;
-  //   puritySanctity = 0;
-  // } else {
-  //   console.log(data);
-  //   console.log("data isn't null");
-  //   username = data.username;
-  //   email = data.email;
-  //   care = data.MFT.care;
-  //   fairness = data.MFT.fairness;
-  //   ingroupLoyalty = data.MFT.ingroupLoyalty;
-  //   authorityRespect = data.MFT.authorityRespect;
-  //   puritySanctity = data.MFT.puritySanctity;
-  // }
 
   //sets table data per row
   const rows = [
@@ -205,7 +194,7 @@ const Profile = () => {
                 color="textPrimary"
               ></Typography>
               {/*  this next line contains the comment from the toss at the index*/}
-              {prevTosses[i].comment}  
+              {prevTosses.responses[i].comment}  
             </React.Fragment>
           }
           secondary={
@@ -217,11 +206,12 @@ const Profile = () => {
                 color="textPrimary"
               ></Typography>
               {/*  this next line contains the source from the toss at the index*/}
-              {"Source: " + prevTosses[i].source}
+              {"Source: " + prevTosses.responses[i].source}
             </React.Fragment>
           }
         />
       </ListItem></div>);
+      console.log(prevTosses.responses[i]);
     }
   }
   return (
