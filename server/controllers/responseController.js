@@ -41,25 +41,6 @@ exports.getResponse = async (req, res) => {
     });
 };
 
-// exports.aggregateTossResponses = catchAsync(async (req, res, next) => {
-//   // Execute query
-//   Toss.find({ assocToss: mongoose.Types.ObjectId(req.body.tossID) }),
-
-//   const features = new APIFilters(
-//     Response.find({ assocToss: mongoose.Types.ObjectId(req.body.tossID) }),
-//     req.query
-//   )
-//     .filter()
-//     .sort()
-//     .limitFields()
-//     .paginate();
-
-//   const responses = await features.query;
-
-//   req.responses = responses;
-//   next();
-// });
-
 exports.getUserResponses = catchAsync(async (req, res, next) => {
   // Execute query
   const features = new APIFilters(
