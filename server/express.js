@@ -83,7 +83,7 @@ module.exports.init = () => {
 
   app.use(globalErrorHandler);
 
-  app.use('/', express.static(path.resolve('client/build')));
+  app.use('/', express.static('client/build'));
   app.use('/static', express.static(path.resolve('client/build')));
   app.all('/*', (req, res) => {
     // res.status(201).json({message: "nothing here!"});
