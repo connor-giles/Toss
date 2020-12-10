@@ -83,8 +83,10 @@ module.exports.init = () => {
 
   app.use(globalErrorHandler);
 
-  app.use('/', express.static(path.join(__dirname, '../../client/build')));
-  app.use(express.static(path.join(__dirname, '../../client/build')));
+  console.log(path.join(__dirname, '../client/build'))
+
+  app.use('/', express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/build')));
   app.all('*', (req, res) => {
     // res.status(201).json({message: "nothing here!"});
     res.sendFile(path.resolve("client/build/index.html"));
