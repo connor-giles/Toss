@@ -83,6 +83,8 @@ module.exports.init = () => {
 
   app.use(globalErrorHandler);
 
+  console.log(path.resolve('client/build'))
+
   app.use('/', express.static('client/build'));
   app.use('/static', express.static(path.resolve('client/build')));
   app.all('/*', (req, res) => {
