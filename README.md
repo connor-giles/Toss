@@ -1,23 +1,19 @@
 ## _**PLEASE READ THIS TO COMPLETION BEFORE ASKING ANY QUESTIONS!**_
 
-### _**IMPORTANT NOTES**_ - 
-This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
-- local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
-- production: Since the config file is not pushed when you deploy your app, you must specifiy your db uri in heorku. Set the uri in heroku as specified in [this](https://devcenter.heroku.com/articles/config-vars) resource. Make sure you name the environement variable "DB_URI".
-
-This project contains an example project board meant to showcase how one can be used. The issues posted to it are not real issues.
-
 ## Getting Started
-This repository aims to assist you in beginning work on a MERN stack application for heroku deployment with a solid file structure as a foundation. To get started make a copy of this template repo for your project teams by clicking the green "Use this template" button above.
+T.O.S.S., or This One Study Shows, aims to address a very specific trend in society: stubbornness in beliefs. Often times in an argument or debate, people will bring up a single source (academic or otherwise) that supports their point, and disregard any context or possible other points of view. 
 
-Since this project will hold both the client application and the server application there will be node modules in two different places. First run `npm install` from the root. After this you will run `npm run-script install-all` from the root. From now on run this command anytime you want to install all modules again. This is a script we have defined in package.json. Alternatively your group may choose to simplify this process by using yarn workspaces as specified [here](https://yarnpkg.com/lang/en/docs/workspaces/).
+T.O.S.S. aims to change that by exposing users to unique and different viewpoints through an easy to use webapp. 
+It does this by allowing users to respond to a number of predetermined or user-submitted controversial and/or thought-provoking topics or prompts, giving their full opinion and beliefs. 
+It then shows a user the responses made by other users, and prioritizes showing responses from those whose values differ most radically.
 
-This app can be deployed directly to heroku since there is a script defined in package.json which will automatically handle building and deploying the app. For more information on deploying to heroku reference the extra resources at the bottom of this file. 
+## Running the website
 
+Since this project will hold both the client application and the server application there will be node modules in two different places. First run `npm install` from the root. After this you will run `npm run-script install-all` from the root. 
 
-## Available Scripts
+If attempting to run the web app locally, the user must ensure that the config files are availible in the file structure and also that the correct config.DOMAIN.name is selected. There are two options for these which include the localhost and the heroku url
 
-Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:
+This app is also deployed to heroku via the url https://toss-cen.herokuapp.com/
 
 ### `npm run-script dev`
 
@@ -42,8 +38,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 If deploying to heroku this does not need to be run since it is handled by the heroku-postbuild script<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 
 ## File structure
 #### `client` - Holds the client application
@@ -67,8 +61,3 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 #### `README` - This file!
 
 ## Learn More
-To learn how to setup a local MongoDB instance for testing, check out how to [connect to MongoDB](https://docs.mongodb.com/guides/server/drivers/).
-
-To learn how to deploy a full-stack web app to heroku, check out [this great guide](https://daveceddia.com/deploy-react-express-app-heroku/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
