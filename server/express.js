@@ -1,4 +1,3 @@
-//const { config } = require('dotenv/types');
 const path = require('path'),
   express = require('express'),
   mongoose = require('mongoose'),
@@ -12,83 +11,67 @@ const path = require('path'),
   helmet = require('helmet'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
-
-const responseRouter = require('./routes/responseRouter'),
+  responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
   dotenv = require('dotenv');
 
 module.exports.init = () => {
-  /* connect to database
-        - reference README for db uri
-  */
-  //console.log(process.env.DB_URI)
-  mongoose
-    .connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
+    mongoose.connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
     .then(() => console.log('DB connection successful!'))
     .catch((err) => SVGForeignObjectElement.log('ERROR'));
-  mongoose.set('useCreateIndex', true);
-  mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
+    mongoose.set('useFindAndModify', false);
 
-  // initialize app
-  const app = express();
+    // initialize app
+    const app = express();
 
-  app.use(
-    cors({
-      credentials: true,
-      origin: require('./config/domain').DOMAIN.name
-    })
-  );
+    app.use(
+      cors({
+        credentials: true,
+        origin: require('./config/domain').DOMAIN.name
+      })
+    );
 
-  
-  // https headers
-  app.use(helmet());
+    // enable request logging for development debugging
+    app.use(morgan('dev'));
 
-  // enable request logging for development debugging
-  app.use(morgan('dev'));
+    // body parsing middleware
+    app.use(bodyParser.json());
+    app.use(cookieParser());
 
+    // Data sanitization against NoSQL query injection
+    app.use(mongoSanitize());
 
-  // Limit requests from same API
+    // Data sanitization against XSS
+    app.use(xss());
 
-  // const limiter = rateLimit({
-  //   max: 100,
-  //   windowMs: 60 * 60 * 1000,
-  //   message: 'Too many requests from this IP, please try again in an hour!',
-  // });
-  // app.use('/', limiter);
+    // TEST
+    app.use((req, res, next) => {
+        //console.log(req.cookies);
+        next();
+    });
 
-  // body parsing middleware
-  app.use(bodyParser.json());
-  app.use(cookieParser());
+    // add a router
+    app.use('/response', responseRouter);
+    app.use('/toss', tossRouter);
+    app.use('/user', userRouter);
 
-  // Data sanitization against NoSQL query injection
-  app.use(mongoSanitize());
+    app.use(globalErrorHandler);
 
-  // Data sanitization against XSS
-  app.use(xss());
+    if (process.env.NODE_ENV === 'production') {
+        // Serve any static files
+        app.use(express.static(path.join(__dirname, '../client/build')));
 
-  // TEST
-  app.use((req, res, next) => {
-    //console.log(req.cookies);
-    next();
-  });
+        // Handle React routing, return all requests to React app
+        app.get('*', function(req, res) {
+            res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+        });
+    }
 
-  // add a router
-  app.use('/response', responseRouter);
-  app.use('/toss', tossRouter);
-  app.use('/user', userRouter);
+    return app
+}
 
-  app.use(globalErrorHandler);
-
-  app.use('/', express.static('client/build'));
-  app.use(express.static('client/build'));
-  app.all('/*', (req, res) => {
-    // res.status(201).json({message: "nothing here!"});
-    res.sendFile(path.resolve("client/build/index.html"));
-  });
-
-  return app;
-};
