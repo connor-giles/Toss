@@ -34,6 +34,7 @@ function Home() {
     setCtime(hh + 'hrs ' + mm + 'mins ' + ss + 'secs ');
   };
 
+
   setInterval(UpdateTime, 1000);
 
   return (
