@@ -1,4 +1,3 @@
-//const { config } = require('dotenv/types');
 const path = require('path'),
   express = require('express'),
   mongoose = require('mongoose'),
@@ -8,21 +7,15 @@ const path = require('path'),
   AppError = require('./utils/appError'),
   globalErrorHandler = require('./controllers/errorController'),
   xss = require('xss-clean'),
-  rateLimit = require('express-rate-limit'),
   helmet = require('helmet'),
   cookieParser = require('cookie-parser'),
   mongoSanitize = require('express-mongo-sanitize');
-
-const responseRouter = require('./routes/responseRouter'),
+  responseRouter = require('./routes/responseRouter'),
   tossRouter = require('./routes/tossRouter'),
   userRouter = require('./routes/userRouter');
   dotenv = require('dotenv');
 
 module.exports.init = () => {
-  /* connect to database
-        - reference README for db uri
-  */
-  //console.log(process.env.DB_URI)
   mongoose
     .connect(process.env.DB_URI || require('./config/config').db.uri_TossData, {
       useNewUrlParser: true,
@@ -50,16 +43,6 @@ module.exports.init = () => {
   // enable request logging for development debugging
   app.use(morgan('dev'));
 
-
-  // Limit requests from same API
-
-  // const limiter = rateLimit({
-  //   max: 100,
-  //   windowMs: 60 * 60 * 1000,
-  //   message: 'Too many requests from this IP, please try again in an hour!',
-  // });
-  // app.use('/', limiter);
-
   // body parsing middleware
   app.use(bodyParser.json());
   app.use(cookieParser());
@@ -83,14 +66,22 @@ module.exports.init = () => {
 
   app.use(globalErrorHandler);
 
-  console.log(path.join(__dirname, '../client/build'))
+  // app.use('/', express.static(path.join(__dirname, '../client/build')));
+  // app.use(express.static(path.join(__dirname, '../client/build')));
+  // app.all('/*', (req, res) => {
+  //   // res.status(201).json({message: "nothing here!"});
+  //   res.sendFile(path.resolve("client/build/index.html"));
+  // });
 
-  app.use('/', express.static(path.join(__dirname, '../client/build')));
-  app.use(express.static(path.join(__dirname, '../client/build')));
-  app.all('/*', (req, res) => {
-    // res.status(201).json({message: "nothing here!"});
-    res.sendFile(path.resolve("client/build/index.html"));
-  });
+  if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, '../client/build')));
+
+    // Handle React routing, return all requests to React app
+    app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    });
+  }
 
   return app;
 };
