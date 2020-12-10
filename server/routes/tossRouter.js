@@ -62,7 +62,7 @@ router
   .route('/aggregate')
   .get(
     authController.protect,
-    responseController.aggregateTossResponses,
+    tossController.aggregateTossResponses,
     responseController.getTossResponses
   );
 //router.patch('/updateAll', tossController.updateAll);

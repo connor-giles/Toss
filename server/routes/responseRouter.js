@@ -2,6 +2,7 @@ const { response } = require('express');
 const express = require('express');
 const responseController = require('../controllers/responseController');
 const authController = require('../controllers/authController');
+const tossController = require('../controllers/tossController');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router
   .get(
     authController.protect,
     responseController.limitToThree,
-    responseController.aggregateTossResponses,
+    tossController.aggregateTossResponses,
     responseController.getTossResponses
   );
 
