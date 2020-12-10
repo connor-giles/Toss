@@ -114,12 +114,6 @@ export default class SubmitResponse extends Component {
           </div>
         </form>
 
-        <Link to="/phase2">
-          <button className="tossButton">
-            <p className="tossButton-text">Phase2</p>
-          </button>
-        </Link>
-
       </div>
     );
   }

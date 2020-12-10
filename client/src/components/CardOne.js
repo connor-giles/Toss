@@ -17,6 +17,7 @@ export default function CardOne() {
   const [expanded, setExpanded] = React.useState(false);
   const [tossId, setTossId] = useState("");
   const [preview, setPreview] = useState([]);
+  const [test, setTest] = useState("");
 
   //gets 4 tosses categories in phase 1
   useEffect(() => {

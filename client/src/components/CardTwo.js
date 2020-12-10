@@ -10,6 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import config from '../config/config.js';
+import { Link } from 'react-router-dom';
 
 export default function CardTwo() {
   const classes = useStyles();
@@ -38,6 +39,7 @@ export default function CardTwo() {
   }, []);
 
   return (
+
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5" component="h2">
@@ -46,6 +48,7 @@ export default function CardTwo() {
         <Typography className={classes.pos} color="textSecondary">
           Prompts
         </Typography>
+        <Link to="/phase2" className="phase2-link">
         <div className="tosses">
           {phaseTwo.map((toss) => {
             if (toss.category.science) {
@@ -89,7 +92,9 @@ export default function CardTwo() {
             }
           })}
         </div>
+        </Link>
       </CardContent>
+     
 
       {/* <CardActions disableSpacing>
         <IconButton
